@@ -29,11 +29,11 @@ alert(message_1);
 beatles = [111,222,333,444,555,666,777];
 
 function shout(test) {
-	beatles = Array("aaa",111);
-	for (var i = beatles.length - 1; i >= 0; i--) {
-		alert(beatles[i]);
-	}
-	alert(test);
+    beatles = Array("aaa",111);
+    for (var i = beatles.length - 1; i >= 0; i--) {
+        alert(beatles[i]);
+    }
+    alert(test);
 }
 
 shout(111);
