@@ -61,33 +61,5 @@ function preparePlaceholder()
     insertAfter(imageAdd,pAdd);
 }
 
-function insertAfter(newElement,targetElement)
-{
-    var parent = targetElement.parentNode;
-    if (parent.lastChild == targetElement) {
-        parent.appendChild(newElement);
-    }
-    else
-    {
-        //nextSibling当前元素节点的下一个元素节点
-        parent.insertBefore(newElement,targetElement.nextSibling);
-    }
-}
-
-function addLoadEvent(func)
-{
-    var oldonload = window.onload;
-    if (typeof window.onload != "function") {
-        window.onload = func;
-    }
-    else
-    {
-        window.onload = function() {
-            oldonload();
-            func();
-        };
-    }
-}
-
 addLoadEvent(preparePlaceholder);
 addLoadEvent(prepareLinks);
