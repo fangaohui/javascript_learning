@@ -6,6 +6,16 @@ for (var i = paras.length - 1; i >= 0; i--) {
     }
 }
 
+function autoMoveElement() {
+    var paras = document.getElementsByTagName('p');
+    if (!paras) return false;
+    var firstElem = paras[0];
+    firstElem.style.position = 'absolute';
+    firstElem.style.left = '50px';
+    firstElem.style.top = '200px';
+    moveElement(firstElem.getAttribute('id'),100,300,10);
+}
+
 function highlightRows() {
     if (!document.getElementsByTagName) return false;
     var rows = document.getElementsByTagName('tr');
@@ -22,4 +32,5 @@ function changeHighlightStyle() {
     lastState = !lastState;
 }
 
+addLoadEvent(autoMoveElement);
 addLoadEvent(highlightRows);
