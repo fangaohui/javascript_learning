@@ -26,7 +26,7 @@ function doSomething() {
     var messageThird = "hello";
     var messageThirdAsBoolean = Boolean(messageThird);
     if (messageThird) {
-        alert(typeof (messageThird));  //存在这种自动执行的Boolean转换 要明确这里是什么变量 messageThird已经是boolean变量 值是true
+        alert(typeof (messageThird));  //存在这种自动执行的Boolean()转换 要明确这里是什么变量 messageThird已经是boolean变量 值是true
     }
 
     //ECMAScript使用IEEE754格式来表示整数和浮点数
@@ -65,7 +65,7 @@ function doSomething() {
     var num3 = Number('0x1b');  //18进制字符串转换为十进制27
     var num4 = Number('07');  //前导0忽略 而不是按八进制
 
-    // parseInt() parseFloat() 函数专门用于字符串转换数值 其他类型转换会如何？
+    //parseInt() parseFloat() 函数专门用于字符串转换数值 其他类型转换会如何？
     var num1 = parseInt('123blue');  //123
     var num2 = parseInt('');  //NaN
     var num2 = parseInt('AF');  //NaN
@@ -83,10 +83,45 @@ function doSomething() {
 
     //string类型的length属性 只返回包含16位字符的数目 可能不准确 比如当包含双字节字符时
     //toString() String()区别
-    var age, age1 = null;;
+    var age, age1 = null;
     var result = age1.toString();  //错误 只有null和undefined值没有toSting()函数 可使用String()函数
     alert(String(age));  //'undefined'
     alert(String(age1));  //'null'
+
+    //位操作 NaN和Infinity值应用位操作会被当做0处理
+    var num = -18;
+    alert.(num.toString(2));  //-10010 隐藏了负数的二进制补码过程
+    //按位非
+    var num1 = 25;
+    var num2 = ~num1;  //-26
+    //按位与
+    var num3 = 25 & 3;  //1
+    //按位或
+    var num4 = 25 | 3;  //27
+    //按位异或
+    var num4 = 25 ^ 3;  //26
+    //左移 以0补充空位
+    var oldValue = 2;  //二进制 0000010
+    var newValue = oldValue << 5;  //64 二进制1000000
+    var testValue = oldValue << 65;  //如果移动65位结果会是什么？
+    var testValue1 = ~1;  //-2
+    var testValue2 = testValue2 << 5;  //-64 负数二进制是补码形式 左移为什么会和正数一致？由于补码规则？
+    //右符右移 会用符号位来填充产生的空位 即正数以0补充 负数以1补充
+    var rightOld = 64;
+    var rightNew = rightOld >> 5;  //2
+    var rightTest = -64;
+    var rightTest1 = rightTest >> 5;  //验证值
+    //无符右移 以0补充空位
+    var unsignRightOld = 64;
+    var unsignRightNew = unsignRightOld >>> 5;  //2
+    var testRight = -64;
+    var testRight1 = testRight >>> 5;  //134217726 如果移动有符负数则连同符号位移动其二进制补码
+
+    //逻辑与或非
+    //非返回值一定是bool值 !!结果和Boolean()相同
+    //逻辑与操作符和或操作符 为短路操作符 可能返回一个对象 注意对于规则 因此可以利用逻辑或操作符来避免为变量赋值null或undefined
+    var myObject = preferredObject || backupObject;  //preferredObject优先值 如优先值为null则使用后备值backupObject
+
 
 
 }
