@@ -179,5 +179,38 @@ function doAdd(num1, num2) {
 //如果只传一个参数 设置arguments[1]不会反映到命名参数中 因为arguments对象的长度是由传入参数的个数决定 不是由定义函数时的命名参数个数决定
 doAdd(1);
 
+//ECMAScript所有函数的参数都是按值传递的
+//基本类型 值得传递如同基本类型变量复制一样 num和result是相互独立的
+function addTen(num) {
+    num += 10;
+    return num;
+}
+var count = 20;
+var result = addTen(count);
+alert(count);  //20
+alert(result);  //30
+
+//引用类型的传递和引用类型变量的复制一样 obj和person引用的是在堆内存中的同一个对象
+//即使参数是按值传递的，obj也会按引用来访问同一个对象
+function setName(obj) {
+    obj.name = 'Nicholas';
+}
+var person = new Object();
+setName(person);
+alert(person.name);  //Nicholas
+
+//如果不是按值 而是按引用 则如下不成立 可以理解为类似指针的值？
+function setName(obj) {
+    obj.name = 'Nicholas';
+    obj = new Object();
+    obj.name = 'Greg';
+}
+var person = new Object();
+setName(person);
+alert(person.name);  //Nicholas
+
+
+
+
 
 
