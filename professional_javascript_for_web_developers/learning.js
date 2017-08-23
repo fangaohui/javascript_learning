@@ -209,8 +209,74 @@ var person = new Object();
 setName(person);
 alert(person.name);  //Nicholas
 
+//使用对象字面值来封装多个可选参数 使用typeof操作符来判断属性是否存在 不存在应该返回undefined？
+function displayInfo(args) {
+    if (typeof args.name == 'string') {
+        alert(args,name);
+    }
+}
+displayInfo({
+    name : 'Nicholas',
+    age : 29
+});
+displayInfo({
+    age : 20,
+});
 
+//如果初始化20长度的数组 具体数组的元素应该是undefined
+var colors = Array(20);
+alert(colors.length);
+alert(colors[1]);  //undefined
+//数组lenght属性是可读写的 可以用来删除或增加元素
+var colors = ['red', 'test', 'green'];
+colors.length = 2;
+alert(colors[2]);  //undefined
+//对数组使用toString或toLocaleString 元素会调用对应的函数
+var person1 = {
+    toLocaleString : function() {
+        return 'Nikolaos';
+    },
+    toString : function() {
+        return 'Greg';
+    }
+}
+var person2 = {
+    toLocaleString : function() {
+        return 'test';
+    },
+    toString : function() {
+        return 'abc';
+    }
+}
+var person = [person1];
+alert(person);  //Greg,abc
+alert(person.toString());  //Greg,abc
+alert(person.toLocaleString());  //Nikolaos,test
+alert(person.join('-'));  //Greg-abc
+//数组排序
+var values = [0, 1, 5, 10, 15];
+values.reverse();  //15 10 5 1 0
+values.sort();  //0 1 10 15 5 sort无参数则默认元素toString然后按string比较
+function compare(value1, value2) {
+    if (value1 < value2) {
+        return 1;
+    } else if (value1 > value2) {
+        return -1;
+    } else {
+        return 0;
+    }
+}
+values.sort(compare);  //15 10 5 1 0
 
+var numbers = [1, 2, 3, 4, 5, 4, 3, 2, 1];
+var everyResult = numbers.every(function(item, index, array) {
+    return (item > 2);
+});
+alert(everyResult);  //false every必须每个元素都满足
+var someResult = numbers.some(function(item, index, array) {
+    return (item > 2);
+});
+alert(someResult);  //true some只要有一个元素满足
 
 
 
