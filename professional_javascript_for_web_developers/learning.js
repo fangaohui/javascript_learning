@@ -278,5 +278,47 @@ var someResult = numbers.some(function(item, index, array) {
 });
 alert(someResult);  //true some只要有一个元素满足
 
+//构造函数属性类似于其他语言中的静态属性 可使用长属性名和短属性名两种方式访问
+var text = 'this has been a short summer';
+var pattern = /(.)hort/g;
+if (pattern.test(text)) {
+    alert(RegExp.$_);
+    //属性名不是有效的标识符 则使用中括号字符串来访问
+    alert(RegExp['$`']);
+    alert(RegExp['$']);
+    alert(RegExp['$&']);  
+    alert(RegExp['$+']);
+    alert(RegExp['$*']);  //长属性名为multiline
+}
+
+//能使用之后的函数creatComparisonFunction 因为该函数使用函数声明语法定义 解释器有函数声明提升操作 使用函数表达式或构造函数则报错
+var data = [{name : 'z', age : 28}, {name : 'n', age : 29}];
+data.sort(creatComparisonFunction('name'));
+alert(data[0].name);  //n
+data.sort(creatComparisonFunction('age'));
+alert(data[0].name);  //z
+//函数作为函数返回值
+function creatComparisonFunction(propertyName) {
+    return function(obj1, obj2) {
+        var value1 = obj1[propertyName];
+        var value2 = obj2[propertyName];
+        if (value1 < value2) {
+            return -1;
+        } else if (value1 > value2) {
+            return 1;
+        } else {
+            return 0;
+        }
+    };
+}
+//阶乘函数 arguments对象的callee属性指向拥有arguments的对象本身 此例中即函数本身
+function factorial(num) {
+    if (num <= 1) {
+        return 1;
+    } else {
+        return num * arguments.callee(num-1);
+    }
+}
+
 
 
