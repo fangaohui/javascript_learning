@@ -17,7 +17,6 @@ console.log(sayColor.length);
 function sum(num1, num2) {
     return num1 + num2;
 }
-
 function callSum1(num1, num2) {
     return sum.apply(this, arguments);
 }
@@ -65,7 +64,7 @@ console.log(s3.color); //blue new调用基本包装类型构造函数 在执行�
 var value = '25';
 var number = Number(value); //调用转型函数 number中保存的是基本类型的值 基本类型的值 基本类型的值 25
 var obj = new Number(value); //调用构造函数 obj中保存的是Number的实例 Number的实例 Number的实例
-
+//Boolean类型
 var falseObject = new Boolean(false);
 var result = falseObject && true; //true falseObject是对象 对falseObject而不是对它的值进行求值 对象都会被转换为true
 var falseValue = false;
@@ -74,6 +73,42 @@ typeof falseObject; //object
 typeof falseValue; //boolean
 falseObject instanceof Boolean; //true
 falseValue instanceof Boolean; //false
+//Number类型
+var num = 10.235;
+console.log(num.toString(8)); //12.1702436560507534 八进制
+console.log(num.toFixed(2)); //10.23 注意舍入规则
+console.log(num.toExponential(5)); //1.02350e+1
+var num1 = 99;
+console.log(num1.toPrecision(1)); //1e+2 99只用1位来表示 最合适的只能是指数表示法的100
+console.log(num1.toPrecision(2)); //99
+console.log(num1.toPrecision(6)); //99.0000
+console.log(Boolean(new Number(0))); //true
+console.log(Boolean(0)); //false
+console.log(num1.constructor.valueOf()); //Number constructor保存用于创建当前引用类型实例的构造函数
+var colors = ['red', 'blue']; //和对象object一样 使用字面值表示法 不会调用对应的构造函数
+var balls = new Array(2);
+console.log(colors.constructor.valueOf()); //Array
+console.log(balls.constructor.valueOf()); //Array
+
+var text = 'cat, at, sat, fat';
+var pattern = /.at/;
+var matches = text.match(pattern);
+console.log(matches); //与RegExp对象exec()方法传递text为参数得到相同的数组
+console.log(text);
+var pos = text.search(/.at/); //0 第一个匹配项cat的索引
+console.log(pos);
+var result = text.replace('at', 'ond');
+console.log(result); //cond, at, sat, fat 只会替换第一个子字符串
+result = text.replace(/at/g, 'ond'); //传入一个制定全局g的正则表达式 可以替换所有子字符串
+console.log(result);
+result = text.replace(/(.at)/g, 'word ($`)'); //word (),word (cat,), word (cat, at, ), word (cat, at, sat, )
+result = text.replace(/(.at)/g, 'word ($&)'); //word (cat),word ( at), word (sat), word (fat)
+result = text.replace(/(.at)/g, "word ($')"); //word (, at, sat, fat),word (, sat, fat), word (, fat), word ()
+result = text.replace(/(.at)/g, "word ($1)"); //word (cat),word ( at), word (sat), word (fat)
+result = text.replace(/(.at)/g, "word ($2)"); //word ($2),word ($2), word ($2), word ($2) 没有第二个捕获组？
+result = text.replace(/.at/g, "word ($1)"); //word ($1),word ($1), word ($1), word ($1) 正则字面值不带括号不行???
+console.log(result);
+
 
 
 
