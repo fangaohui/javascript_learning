@@ -89,7 +89,7 @@ var colors = ['red', 'blue']; //和对象object一样 使用字面值表示法 �
 var balls = new Array(2);
 console.log(colors.constructor.valueOf()); //Array
 console.log(balls.constructor.valueOf()); //Array
-
+//String类型
 var text = 'cat, at, sat, fat';
 var pattern = /.at/;
 var matches = text.match(pattern);
@@ -107,7 +107,62 @@ result = text.replace(/(.at)/g, "word ($')"); //word (, at, sat, fat),word (, sa
 result = text.replace(/(.at)/g, "word ($1)"); //word (cat),word ( at), word (sat), word (fat)
 result = text.replace(/(.at)/g, "word ($2)"); //word ($2),word ($2), word ($2), word ($2) 没有第二个捕获组？
 result = text.replace(/.at/g, "word ($1)"); //word ($1),word ($1), word ($1), word ($1) 正则字面值不带括号不行???
+//关于正则 匹配项 多个捕获组 模式匹配项 第一个捕获组的匹配项 ？？？
 console.log(result);
+console.log(String.fromCharCode(104, 101, 108, 108, 111)); //hello String构造函数的静态方法
+
+var uri = 'http://www.wrox.com/illegal value.html#start';
+var encodeText = encodeURI(uri);
+var encodeComponentText = encodeURIComponent(uri);
+console.log(encodeText); //http://www.wrox.com/illegal%20value.html#start
+console.log(encodeComponentText); //http%3A%2F%2Fwww.wrox.com%2Fillegal%20value.html%23start
+console.log(decodeURI(encodeText));
+console.log(decodeURI(encodeComponentText)); //http%3A%2F%2Fwww.wrox.com%2Fillegal value.html%23start 只会decode空格
+console.log(decodeURIComponent(encodeComponentText)); //http://www.wrox.com/illegal value.html#start
+console.log(decodeURIComponent(encodeText)); //http://www.wrox.com/illegal value.html#start
+
+eval('console.log(uri)');
+//eval()中创建的任何变量和函数都不会被提升 即只能在eval()之后使用
+// sayHi(); error 
+// console.log(msg); error
+eval('var msg = "hello word";');
+eval('function sayHi(){ console.log("hi"); }');
+sayHi();
+
+//立即调用的函数表达式
+var test = function(){
+    return '123';
+}();
+console.log(test); //123
+
+//5.7.2
+console.log(Math.E);
+var values = [1, 2, 3, 4, 5, 6, 7, 8];
+var max = Math.max.apply(Math, values);
+console.log(max);
+var num = Math.floor(Math.random() * 9 + 2); //随机一个2-9之间的整数
+console.log(num);
+//获取制定范围内的随机数
+function selectFrom(lowerValue, upperValue){
+    var choices = upperValue - lowerValue + 1;
+    return Math.floor(Math.random() * choices + lowerValue);
+}
+num = selectFrom(2, 10);
+console.log(num);
+
+//6.1.1
+var person = {};
+Object.defineProperty(person, 'name', {
+    writable : false,
+    value : 'Nicholas'
+});
+console.log(person.name); //Nicholas
+person.name = 'Greg';
+console.log(person.name); //Nicholas writable为false
+
+
+
+
 
 
 
