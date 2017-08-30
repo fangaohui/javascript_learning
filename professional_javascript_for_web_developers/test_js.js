@@ -1,4 +1,3 @@
-
 console.log('test');
 
 function sayColor(color, name) {
@@ -17,6 +16,7 @@ console.log(sayColor.length);
 function sum(num1, num2) {
     return num1 + num2;
 }
+
 function callSum1(num1, num2) {
     return sum.apply(this, arguments);
 }
@@ -130,7 +130,7 @@ eval('function sayHi(){ console.log("hi"); }');
 sayHi();
 
 //立即调用的函数表达式
-var test = function(){
+var test = function() {
     return '123';
 }();
 console.log(test); //123
@@ -143,29 +143,9 @@ console.log(max);
 var num = Math.floor(Math.random() * 9 + 2); //随机一个2-9之间的整数
 console.log(num);
 //获取制定范围内的随机数
-function selectFrom(lowerValue, upperValue){
+function selectFrom(lowerValue, upperValue) {
     var choices = upperValue - lowerValue + 1;
     return Math.floor(Math.random() * choices + lowerValue);
 }
 num = selectFrom(2, 10);
 console.log(num);
-
-//6.1.1
-var person = {};
-Object.defineProperty(person, 'name', {
-    writable : false,
-    value : 'Nicholas'
-});
-console.log(person.name); //Nicholas
-person.name = 'Greg';
-console.log(person.name); //Nicholas writable为false
-
-
-
-
-
-
-
-
-
-
