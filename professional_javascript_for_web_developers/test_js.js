@@ -149,3 +149,57 @@ function selectFrom(lowerValue, upperValue) {
 }
 num = selectFrom(2, 10);
 console.log(num);
+
+//***********test************
+var messageThird = "hello";
+if (messageThird) {
+    console.log(typeof(messageThird)); //string 不会转换为boolean类型 书上有误
+}
+var number01 = -18;
+console.log(number01.toString(2));
+var oldValue = 2; //二进制 0000010
+var newValue = oldValue << 5; //64 二进制1000000
+var testValue = oldValue << 65;
+console.log(testValue);
+var testValue1 = -2;
+var testValue2 = testValue1 << 5;
+console.log(testValue2); //-64
+//label语句 outermost 结合break continue在循环嵌套的情况下使用
+var num23 = 10;
+outermost:
+    for (var i = 0; i < 10; i++) {
+        for (var j = 0; j < 10; j++) {
+            if (i == 5 && j == 5) {
+                continue outermost;
+            }
+            num23++;
+        }
+    }
+console.log(num23);
+function testPara(para1, para2){
+    para1 = 111;
+    para2 = 222;
+    arguments[5] = 6;
+    console.log(arguments[1]); //undefined 因为调用时只传了一个参数 不可通过命名参数同步到对应arguments
+    console.log(para1);
+    console.log(arguments[5]);
+}
+testPara(1);
+function displayInfo(args) {
+    console.log(typeof args.name);
+    if (typeof args.name == 'string') {
+        console.log(args.name);
+    }
+    console.log(typeof arguments.callee + '1111111');
+}
+displayInfo({
+    name: 'Nicholas',
+    age: 29
+});
+displayInfo({
+    age: 20,
+});
+console.log(typeof RegExp);
+
+
+

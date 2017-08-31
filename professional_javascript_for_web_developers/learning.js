@@ -25,7 +25,7 @@ function doSomething() {
     var messageThird = "hello";
     var messageThirdAsBoolean = Boolean(messageThird);
     if (messageThird) {
-        alert(typeof(messageThird)); //存在这种自动执行的Boolean()转换 要明确这里是什么变量 messageThird已经是boolean变量 值是true
+        alert(typeof(messageThird)); //string
     }
 
     //ECMAScript使用IEEE754格式来表示整数和浮点数
@@ -60,7 +60,6 @@ function doSomething() {
     //测试isNaN()函数之后testValue的实际类型 会不会已经被转换为了number？
     var testValue = '10';
     alert(isNaN(testValue));
-    alert(typeof(testValue)); //?
 
     //注意Number()函数的转换规则 尤其当参数为对象时 P30页
     var num1 = Number('hello'); //NaN
@@ -106,11 +105,11 @@ function doSomething() {
     var num4 = 25 ^ 3; //26
     //左移 以0补充空位
     var oldValue = 2; //二进制 0000010
-    var newValue = oldValue << 5; //64 二进制1000000
-    var testValue = oldValue << 65; //如果移动65位结果会是什么？
+    var newValue = oldValue << 64; //2
+    var testValue = oldValue << 65; //4 
     var testValue1 = ~1; //-2
-    var testValue2 = testValue2 << 5; //-64 负数二进制是补码形式 左移为什么会和正数一致？由于补码规则？
-    //右符右移 会用符号位来填充产生的空位 即正数以0补充 负数以1补充
+    var testValue2 = testValue1 << 5; //-64 负数二进制是补码形式 左移为什么会和正数一致？由于补码规则？
+    //有符右移 会用符号位来填充产生的空位 即正数以0补充 负数以1补充
     var rightOld = 64;
     var rightNew = rightOld >> 5; //2
     var rightTest = -64;
@@ -173,18 +172,18 @@ function doSomething() {
 function sayHi() {
     alert('first:' + arguments[0] + ',second:' + arguments[1] + ',total:' + arguments.length);
 }
-//arguments[1]值会同步给num2 但两个值内存空间是独立的 num2是否会同步给rguments[1]？
+//arguments[1]值会同步给num2 但两个值内存空间是独立的 num2也会同步给rguments[1]
 function doAdd(num1, num2) {
     sayHi(1, 2, 3, 4);
     arguments[1] = arguments.length;
     alert(arguments[0] + num2);
 }
-//ECMAScript中的所有参数传递的都是值 不可能通过引用传递参数？ 对象如何通过参数传递？
+//ECMAScript中的所有参数传递的都是值 对象则是指针的值
 //如果只传一个参数 设置arguments[1]不会反映到命名参数中 因为arguments对象的长度是由传入参数的个数决定 不是由定义函数时的命名参数个数决定
 doAdd(1);
 
 //ECMAScript所有函数的参数都是按值传递的
-//基本类型 值得传递如同基本类型变量复制一样 num和result是相互独立的
+//基本类型 值的传递如同基本类型变量复制一样 num和result是相互独立的
 function addTen(num) {
     num += 10;
     return num;
@@ -213,10 +212,10 @@ var person = new Object();
 setName(person);
 alert(person.name); //Nicholas
 
-//使用对象字面值来封装多个可选参数 使用typeof操作符来判断属性是否存在 不存在应该返回undefined？
+//使用对象字面值来封装多个可选参数 使用typeof操作符来判断属性是否存在 不存在返回undefined
 function displayInfo(args) {
     if (typeof args.name == 'string') {
-        alert(args, name);
+        alert(args.name);
     }
 }
 displayInfo({

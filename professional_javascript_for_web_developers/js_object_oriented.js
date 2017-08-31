@@ -6,6 +6,8 @@ Object.defineProperty(person, 'name', {
     configurable : true,
     value : 'Nicholas'
 });
+console.log(Object);
+console.log(console);
 console.log(person.name); //Nicholas
 person.name = 'Greg';
 console.log(person.name); //Nicholas defineProperty()创建属性时 writable未设置 默认为false
