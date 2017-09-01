@@ -124,8 +124,8 @@ student2.name = 'Answer';
 student2.sayName = function(){
     console.log('Michael' + this.name);
 };
-student1.sayName(); //Michael 来至实例
-student2.sayName(); //Ashliy 来至原型
+student1.sayName(); //Ashliy 来至原型
+student2.sayName(); //MichaelAnswer 来至实例
 student2.__proto__.sayName(); //Ashliy
 student2.sayName = undefined;
 console.log('****分割线****');
@@ -179,16 +179,42 @@ Object.defineProperty(Teacher.prototype, 'constructor', {
     value : Teacher
 });
 console.log(ling.constructor == Teacher); //true
-function test(){};
+console.log('*********1');
+function test(){}; //会创建prototype原型对象
 console.log(test.prototype); //test {} 原型对象
 console.log(test.prototype.constructor); //[Function: test] prototype所在函数指针
 test.prototype = {
     num : 1
 };
-console.log(test.prototype.constructor); //[Function: Object]
-console.log(test.constructor); //[Function: Function]
+console.log(test.prototype.constructor); //[Function: Object] 对象字面值覆盖prototype constructor指向Object构造函数
+console.log(test.constructor); //[Function: Function] 函数的constructor是Function引用类型的Function()构造函数
 var t = new test();
 console.log(t.constructor); //[Function: Object]
+var tt = {
+    n : 1
+};
+console.log(tt.constructor); //[Function: Object] 注意原型模式 原型对象使用字面值创建 constructor指向Object构造函数
+Teacher.prototype = new test();
+console.log(Teacher.prototype.num); //1
+console.log((ling.constructor == Teacher) + '**********2'); //true
+//以下代码 深入理解prototype constructor 原型模式
+function Programmer(){
+    this.age = 27;
+};
+var p = new Programmer();
+console.log(p.__proto__); //Programmer {}
+console.log(p.__proto__.age); //undefined
+Programmer.prototype.a = '1234'; //默认创建的prototype原型对象 非字面值创建 constructor指向Programmer构造函数
+console.log(p.__proto__.constructor);
+console.log(p.a);
+//原本默认prototype为Programmer类型 覆盖了一个字面值创建的Object类型 由于原型模式 之后new对象constructor都指向Object构造函数 但不影响之前new对象的constructor
+Programmer.prototype = {
+    b : 123
+};
+var pp = new Programmer();
+console.log(pp.__proto__);
+console.log(pp.constructor); //[Function: Object]
+console.log(p.constructor); //[Function: Programmer]
 
 
 
