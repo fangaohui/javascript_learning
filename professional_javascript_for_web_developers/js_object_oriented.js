@@ -160,11 +160,6 @@ var allKeys = Object.keys(student1);
 console.log(allKeys); //[ 'name' ] 只能取得对象中的可枚举属性 不包含原型中的
 allKeys = Object.getOwnPropertyNames(Student.prototype);
 console.log(allKeys); //[ 'constructor', 'name', 'age', 'sayName' ] 和keys()的区别是 包括不可枚举的属性
-//~~~
-function test(){};
-console.log(test.prototype); //test {} 原型对象
-console.log(test.prototype.constructor); //[Function: test] prototype所在函数指针
-//~~~
 //对constructor的理解 student1.constructor和Student.prototype.constructor的关系???
 console.log(student1.constructor === Student.prototype.constructor); //true
 function Teacher(){};
@@ -184,7 +179,16 @@ Object.defineProperty(Teacher.prototype, 'constructor', {
     value : Teacher
 });
 console.log(ling.constructor == Teacher); //true
-
+function test(){};
+console.log(test.prototype); //test {} 原型对象
+console.log(test.prototype.constructor); //[Function: test] prototype所在函数指针
+test.prototype = {
+    num : 1
+};
+console.log(test.prototype.constructor); //[Function: Object]
+console.log(test.constructor); //[Function: Function]
+var t = new test();
+console.log(t.constructor); //[Function: Object]
 
 
 
