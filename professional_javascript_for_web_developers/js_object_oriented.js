@@ -215,7 +215,58 @@ var pp = new Programmer();
 console.log(pp.__proto__);
 console.log(pp.constructor); //[Function: Object]
 console.log(p.constructor); //[Function: Programmer]
-
+console.log('***********3');
+//http://wiki.jikexueyuan.com/project/javascript-design-patterns/prototype-pattern.html js原型模式
+var myCar = {
+    name : 'ford',
+    drive : function(){
+        console.log('weeee');
+    },
+    panic : function(){
+        console.log('wait');
+    }
+};
+var yourCar = Object.create(myCar);
+console.log(yourCar.__proto__); //mycar
+console.log(yourCar.constructor); //[Function: Object]
+var vehiclePrototype = {
+    d : 'abc',
+    init : function(carModel){
+        this.model = carModel;
+    },
+    getModel : function(){
+        console.log(this.model);
+    }
+};
+function vehicle(model){
+    function F(){};
+    F.prototype = vehiclePrototype;
+    var f = new F();
+    f.init(model);
+    f.d = 'cc';
+    return f;
+}
+var car = vehicle('ford');
+console.log(car.d); //cc
+console.log(car.__proto__.d); //abc
+car.getModel();
+var vehicle01 = {
+    getModel : function(){
+        console.log('the model ' + this.model);
+    }
+};
+var car = Object.create(vehicle01, {
+    'id' : {
+        value : '123',
+        enumerable : true
+    },
+    'model' : {
+        value : 'ford',
+        enumerable : true
+    }
+});
+car.getModel;
+console.log(car.__proto__.constructor); //[Function: Object]
 
 
 
