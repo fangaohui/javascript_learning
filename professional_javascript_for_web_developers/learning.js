@@ -322,6 +322,3 @@ function factorial(num) {
         return num * arguments.callee(num - 1);
     }
 }
-
-
-

@@ -176,7 +176,8 @@ outermost:
         }
     }
 console.log(num23);
-function testPara(para1, para2){
+
+function testPara(para1, para2) {
     para1 = 111;
     para2 = 222;
     arguments[5] = 6;
@@ -185,6 +186,7 @@ function testPara(para1, para2){
     console.log(arguments[5]);
 }
 testPara(1);
+
 function displayInfo(args) {
     console.log(typeof args.name);
     if (typeof args.name == 'string') {
@@ -200,6 +202,3 @@ displayInfo({
     age: 20,
 });
 console.log(typeof RegExp);
-
-
-
