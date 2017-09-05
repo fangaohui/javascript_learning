@@ -27,6 +27,7 @@ console.log(instance instanceof SubType); //true
 console.log(Object.prototype.isPrototypeOf(instance)); //true
 console.log(SubType.prototype.isPrototypeOf(instance)); //true
 console.log(instance.__proto__); //SuperType { property: true, getSubValue: [Function] }
+console.log(Object.getPrototypeOf(instance)); //SuperType { property: true, getSubValue: [Function] }
 console.log(SubType.prototype.__proto__); //SuperType { getSuperValue: [Function] }
 console.log(SubType.prototype.__proto__ === instance.__proto__); //false
 console.log('***2');
@@ -52,8 +53,8 @@ function SubObj(name, age){
 }
 SubObj.prototype = new SuperObj(); //继承方法
 SubObj.prototype.constructor = SubObj;
-SubObj.prototype.sayAge = function(){
-    console.log(this.age);
+SubObj.prototype.__proto__.sayAge = function(){
+    console.log('0000');
 };
 var obj1 = new SubObj('ashliy', 29);
 obj1.colors.push('black');
@@ -64,6 +65,8 @@ var obj2 = new SubObj('michael', 27);
 console.log(obj2.colors); //[ 'red', 'blue' ]
 obj2.sayName();
 obj2.sayAge();
+var obj3 = new SuperObj('111');
+obj3.sayAge(); //0000
 //原型式继承
 function object(o){
     function F(){};
@@ -80,23 +83,50 @@ anotherPerson.fridens.push('bb');
 var yetAnotherPerson = object(person);
 yetAnotherPerson.name = 'linda';
 yetAnotherPerson.fridens.push('aa');
+yetAnotherPerson.fridens = ['1', '2'];
 console.log(anotherPerson.fridens); //[ 'sherry', 'van', 'bb', 'aa' ]
 console.log(person.fridens); //[ 'sherry', 'van', 'bb', 'aa' ]
-console.log(yetAnotherPerson.fridens === person.fridens); //true 引用类型 引用类型的属性始终会共享相应的值 为什么
+console.log(yetAnotherPerson.fridens === person.fridens); //true
 console.log(person.name); //Nicholas
 console.log(anotherPerson.name); //a
-console.log(anotherPerson.name == person.name); //false 基本类型 基本类型不会共享 为什么
+console.log(Object.getPrototypeOf(anotherPerson).name); //Nicholas
+console.log(yetAnotherPerson.fridens); //[ '1', '2' ]
+console.log(Object.getPrototypeOf(yetAnotherPerson).fridens); //[ 'sherry', 'van', 'bb', 'aa' ]
 //寄生式继承
-//副本
+function createAnother(original){
+    var clone = Object.create(original);
+    clone.sayHi = function(){
+        console.log('hi');
+    };
+    return clone;
+};
+var pp = {
+    name : '123',
+};
+var ppp = createAnother(pp);
+ppp.sayHi(); //hi
 //寄生组合式继承
-
-
-
-
-
-
-
-
-
-
-
+function inheritPrototype(sub1, super1){
+    var prototype = object(super1.prototype);
+    prototype.constructor = sub1;
+    sub1.prototype = prototype;
+}
+function Super(name){
+    this.name = 'abc';
+    this.colors = ['1', '2'];
+}
+Super.prototype.sayName = function(){
+    console.log(this.name);
+};
+function Sub(name, age){
+    Super.call(this, name);
+    this.age = age;
+}
+inheritPrototype(Sub,Super);
+Sub.prototype.sayAge = function(){
+    console.log(this.age);
+};
+var ss = new Sub('123',27);
+ss.sayName(); //abc
+ss.sayAge(); //27
+//对象中属性的作用域 ??? this ???
