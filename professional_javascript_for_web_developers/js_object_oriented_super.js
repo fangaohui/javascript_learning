@@ -5,13 +5,14 @@ function SuperType() {
 SuperType.prototype.getSuperValue = function() {
     return this.property;
 };
+
 function SubType() {
     this.subproperty = false;
 }
 var testInstance = new SubType();
 //SubType继承了SuperType
 SubType.prototype = new SuperType();
-SubType.prototype.getSubValue = function(){
+SubType.prototype.getSubValue = function() {
     return this.subproperty;
 };
 var instance = new SubType();
@@ -31,7 +32,7 @@ console.log(Object.getPrototypeOf(instance)); //SuperType { property: true, getS
 console.log(SubType.prototype.__proto__); //SuperType { getSuperValue: [Function] }
 console.log(SubType.prototype.__proto__ === instance.__proto__); //false
 console.log('***2');
-SubType.prototype.getSuperValue = function(){
+SubType.prototype.getSuperValue = function() {
     return false;
 };
 console.log(instance.getSuperValue()); //false
@@ -40,20 +41,21 @@ var superObj = new SuperType();
 console.log(superObj.getSuperValue()); //true
 console.log('注意理解 访问器属性 数据属性 和 方法 在原型和继承中的关系');
 //组合继承
-function SuperObj(name){
+function SuperObj(name) {
     this.name = name;
     this.colors = ['red', 'blue'];
 }
-SuperObj.prototype.sayName = function(){
+SuperObj.prototype.sayName = function() {
     console.log(this.name);
 };
-function SubObj(name, age){
+
+function SubObj(name, age) {
     SuperObj.call(this, name); //继承属性
     this.age = age;
 }
 SubObj.prototype = new SuperObj(); //继承方法
 SubObj.prototype.constructor = SubObj;
-SubObj.prototype.__proto__.sayAge = function(){
+SubObj.prototype.__proto__.sayAge = function() {
     console.log('0000');
 };
 var obj1 = new SubObj('ashliy', 29);
@@ -68,14 +70,14 @@ obj2.sayAge();
 var obj3 = new SuperObj('111');
 obj3.sayAge(); //0000
 //原型式继承
-function object(o){
-    function F(){};
+function object(o) {
+    function F() {};
     F.prototype = o;
     return new F();
 }
 var person = {
-    name : 'Nicholas',
-    fridens : ['sherry', 'van']
+    name: 'Nicholas',
+    fridens: ['sherry', 'van']
 };
 var anotherPerson = object(person);
 anotherPerson.name = 'a';
@@ -93,40 +95,41 @@ console.log(Object.getPrototypeOf(anotherPerson).name); //Nicholas
 console.log(yetAnotherPerson.fridens); //[ '1', '2' ]
 console.log(Object.getPrototypeOf(yetAnotherPerson).fridens); //[ 'sherry', 'van', 'bb', 'aa' ]
 //寄生式继承
-function createAnother(original){
+function createAnother(original) {
     var clone = Object.create(original);
-    clone.sayHi = function(){
+    clone.sayHi = function() {
         console.log('hi');
     };
     return clone;
 };
 var pp = {
-    name : '123',
+    name: '123',
 };
 var ppp = createAnother(pp);
 ppp.sayHi(); //hi
 //寄生组合式继承
-function inheritPrototype(sub1, super1){
+function inheritPrototype(sub1, super1) {
     var prototype = object(super1.prototype);
     prototype.constructor = sub1;
     sub1.prototype = prototype;
 }
-function Super(name){
+
+function Super(name) {
     this.name = 'abc';
     this.colors = ['1', '2'];
 }
-Super.prototype.sayName = function(){
+Super.prototype.sayName = function() {
     console.log(this.name);
 };
-function Sub(name, age){
+
+function Sub(name, age) {
     Super.call(this, name);
     this.age = age;
 }
-inheritPrototype(Sub,Super);
-Sub.prototype.sayAge = function(){
+inheritPrototype(Sub, Super);
+Sub.prototype.sayAge = function() {
     console.log(this.age);
 };
-var ss = new Sub('123',27);
+var ss = new Sub('123', 27);
 ss.sayName(); //abc
 ss.sayAge(); //27
-//对象中属性的作用域 ??? this ???
