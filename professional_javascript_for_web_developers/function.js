@@ -6,6 +6,7 @@ testFunction();
 console.log(testFunction.name); //testFunction
 var ff = testFunction;
 console.log(ff.name); //testFunction
+//以下括号中其实是函数声明 加个括号转换成函数表达式 赋值给testFunction
 testFunction = (function a(){
     console.log('abc');
 });
@@ -48,6 +49,79 @@ var result = comparison({'a' : 'abc'},{'a' : 'bcd'});
 //因为comparison是全局变量 置null解除引用 让值脱离执行环境 以便垃圾收集器下次运行时将其回收 P81页 4.3.4管理内存
 comparison = null;
 console.log(result);
+//7.2.2
+var nameTest = 'the window';
+var objectTest = {
+    nameTest : 'my object',
+    getName : function(){
+        console.log(this.nameTest);
+        return this.nameTest;
+    }
+};
+objectTest.getName(); //my object
+(objectTest.getName)(); //my object
+(objectTest.getName = objectTest.getName)(); //undefined web环境下应该是全局的the window
+//注意和上一行代码的区别 上一行先执行赋值语句 再调用赋值后的结果 赋值表达式的值是函数本身 this的值不能得到维持
+objectTest.getName = objectTest.getName;
+objectTest.getName(); //my object
+//7.2.3
+function assignHandler(){
+    var element = document.getElementById('someElement');
+    //引用element的闭包作为元素事件处理 造成循环引用
+    element.onclick = function(){
+        console.log(element.id);
+    };
+}
+function assignHandler(){
+    var element = document.getElementById('someElement');
+    var id = element.id; //避免循环引用
+    element.onclick = function(){
+        console.log(id);
+    };
+    element = null; //闭包引用函数的整个活动对象 其中包含着element 需要置null解除对DOM对象的引用 才能确保回收内存 ???
+}
+//7.3
+function outputNumbers(count){
+    for (var i = 0; i < count; i++) {
+        console.log(i);
+    }
+    console.log(i); //3
+    var i; //只声明已有变量 会忽略
+    console.log(i); //3
+    var i = 44;
+    console.log(i); //44
+
+    n = 'abc';
+    //注意必须加一层括号 由函数声明转换为函数表达式 才能立即跟()调用
+    (function(){
+        for (var j = 0; j < count; j++) {
+            console.log(j);
+            console.log(m); //undefined 闭包函数执行时 引用外部函数活动对象 执行时外部函数中的m还未声明初始化
+            console.log(n); //abc
+        }
+    })();
+    // console.log(j); //error
+    var j;
+    console.log(j); //undefined
+    var m = '123';
+}
+outputNumbers(3);
+//7.4
+function MyObject(name){
+    var privateVar = 10;
+    function privateFunction(){
+        return name + testPrivate;
+    };
+    //特权方法
+    this.publicMethod = function(){
+        privateVar++;
+        console.log(testPrivate); //test_test 注意闭包函数调用时在new之后 testPrivate已声明初始化 和7.3模仿块级作用域的区别
+        return privateFunction();
+    };
+    var testPrivate = 'test_test';
+}
+var my = new MyObject('1122');
+console.log(my.publicMethod()); //1122
 
 
 
