@@ -48,7 +48,23 @@ var comparison = createComparisonFunction('a');
 var result = comparison({'a' : 'abc'},{'a' : 'bcd'});
 //因为comparison是全局变量 置null解除引用 让值脱离执行环境 以便垃圾收集器下次运行时将其回收 P81页 4.3.4管理内存
 comparison = null;
+//7.2.1
 console.log(result);
+function test(){
+    var testResult = new Array();
+    for (var i = 0; i < 10; i++) {
+        testResult[i] = function(num){
+            return function(){
+                return num;
+            };
+        }(i);
+    }
+    return testResult;
+}
+var testArray = test();
+for (var i = 0; i < testArray.length; i++) {
+    console.log(testArray[i]()); //0-9
+}
 //7.2.2
 var nameTest = 'the window';
 var objectTest = {
@@ -121,7 +137,7 @@ function MyObject(name){
     var testPrivate = 'test_test';
 }
 var my = new MyObject('1122');
-console.log(my.publicMethod()); //1122
+console.log(my.publicMethod()); //1122test_test
 
 
 
