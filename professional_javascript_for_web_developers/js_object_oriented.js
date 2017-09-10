@@ -31,7 +31,8 @@ Object.defineProperty(book, 'year', {
 });
 book.year = 2005;
 console.log(book._edition); //NAN 
-console.log(book._year);
+console.log(book._year); //2005
+//edition的configurable为true时执行__defineSetter__/__defineGetter__会报错 为false不会报错但设置无效 edition始终为数据属性而非访问器属性
 book.__defineGetter__('edition', function() {
     return 101;
 });
@@ -40,6 +41,7 @@ book.__defineSetter__('edition', function() {
 });
 book.edition = 1;
 console.log(book.edition); //1 edition属性的configurable为false 始终为数据属性而非访问器属性
+console.log(Object.getOwnPropertyDescriptor(book, 'edition')); //__defineGetter__/__defineSetter__设置无效
 Object.defineProperties(book, {
     _month: {
         writable: true,
@@ -159,8 +161,8 @@ var allKeys = Object.keys(student1);
 console.log(allKeys); //[ 'name' ] 只能取得对象中的可枚举属性 不包含原型中的
 allKeys = Object.getOwnPropertyNames(Student.prototype);
 console.log(allKeys); //[ 'constructor', 'name', 'age', 'sayName' ] 和keys()的区别是 包括不可枚举的属性
-//对constructor的理解 student1.constructor和Student.prototype.constructor的关系???
-//student1.constructor Student.prototype.constructor 其实是指向同一个函数对象的两个不同指针
+//对constructor的理解 student1.constructor和Student.prototype.constructor的关系 二者其实是同一个指针 后者每个对象通过其原型共享的一个属性
+//student1.constructor Student.prototype.constructor 其实是同一个指针 P149页 
 console.log(student1.constructor === Student.prototype.constructor); //true
 function Teacher() {};
 Teacher.prototype = {

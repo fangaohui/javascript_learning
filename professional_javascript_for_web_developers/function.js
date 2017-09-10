@@ -15,6 +15,7 @@ console.log(ff.name); //testFunction
 //命名函数表达式
 var testF = (function f(){
     console.log(2);
+    // f(); //正常调用 只是造成循环 考虑为什么这里可以正常调用 外部不能通过f()来调用???
 });
 // f(); //error
 testF(); //2
@@ -122,6 +123,8 @@ function MyObject(name){
 }
 var my = new MyObject('1122');
 console.log(my.publicMethod()); //1122
+console.log(my.privateVar); //undefined
+console.log(MyObject.privateVar); //undefined
 
 
 
