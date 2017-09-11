@@ -142,7 +142,7 @@ var my = new MyObject('1122');
 console.log(my.publicMethod()); //1122test_test
 console.log(my.privateVar); //undefined
 console.log(MyObject.privateVar); //undefined
-//闭包和原型的联系 函数的属性和在函数中声明的变量的区别 原型链的搜索和作用域链的搜索
+//闭包和原型的联系 函数的属性和在函数中声明的变量的区别 原型链的搜索和作用域链的搜索???
 var tt = new Function('console.log("123321***********")');
 tt();
 console.log(tt.name); //anonymous
@@ -162,7 +162,7 @@ function abc(){
     console.log(aa.caller); //null
 }
 abc();
-console.log(aa.caller); //null 思考caller作为aa的一个属性 在函数执行环境下和非执行环境下是不同的 需要重现看下函数的caller属性
+console.log(aa.caller); //null 思考caller作为aa的一个属性 在函数执行环境下和非执行环境下是不同的 P115页caller属性
 /*
 [ 'length',
   'name',
