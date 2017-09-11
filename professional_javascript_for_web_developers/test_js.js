@@ -1,17 +1,19 @@
 console.log('test');
 
-function sayColor(color, name) {
+function sayColor123(color, name) {
     inner();
 }
 
 function inner() {
-    console.log(inner.caller);
-    console.log(arguments.caller);
-    console.log(arguments.callee);
-    console.log(arguments.callee.caller);
+    console.log(123);
+    console.log(inner.caller); //[Function: sayColor123]
+    console.log(arguments.caller); //undefined
+    console.log(arguments.callee); //[Function: inner]
+    console.log(arguments.callee.caller); //[Function: sayColor123]
+    console.log(123321);
 }
-sayColor();
-console.log(sayColor.length);
+sayColor123();
+console.log(sayColor123.length);
 //函数的apply()和call()方法可以用来制定函数执行时的this
 function sum(num1, num2) {
     return num1 + num2;

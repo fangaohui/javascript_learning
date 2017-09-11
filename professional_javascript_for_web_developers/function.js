@@ -10,6 +10,7 @@ console.log(ff.name); //testFunction
 testFunction = (function a(){
     console.log('abc');
 });
+// console.log(a); //error
 console.log(testFunction.name); //a
 console.log(ff.name); //testFunction
 //命名函数表达式
@@ -141,7 +142,37 @@ var my = new MyObject('1122');
 console.log(my.publicMethod()); //1122test_test
 console.log(my.privateVar); //undefined
 console.log(MyObject.privateVar); //undefined
-
-
-
+//闭包和原型的联系 函数的属性和在函数中声明的变量的区别 原型链的搜索和作用域链的搜索
+var tt = new Function('console.log("123321***********")');
+tt();
+console.log(tt.name); //anonymous
+var aa = function(){
+    console.log(aa.caller);
+    return 123;
+};
+console.log(aa.name); //aa
+console.log(Object.getPrototypeOf(aa)); //[Function]
+console.log(Object.getOwnPropertyNames(aa)); //[ 'length', 'name', 'arguments', 'caller', 'prototype' ] 包含不可枚举属性
+console.log(Object.keys(aa)); //[] 只包含可枚举属性
+console.log(aa.length);
+console.log(aa.caller); //null
+aa.call(my, 1); //aa内部caller为[Function] caller是调用函数的函数 并不是this
+function abc(){
+    aa(); //aa内部caller为[Function: abc]
+    console.log(aa.caller); //null
+}
+abc();
+console.log(aa.caller); //null 思考caller作为aa的一个属性 在函数执行环境下和非执行环境下是不同的 需要重现看下函数的caller属性
+/*
+[ 'length',
+  'name',
+  'arguments',
+  'caller',
+  'apply',
+  'bind',
+  'call',
+  'toString',
+  'constructor' ]
+*/
+console.log(Object.getOwnPropertyNames(aa.__proto__));
 
