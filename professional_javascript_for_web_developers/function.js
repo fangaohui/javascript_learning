@@ -96,7 +96,8 @@ function assignHandler(){
     element.onclick = function(){
         console.log(id);
     };
-    element = null; //闭包引用函数的整个活动对象 其中包含着element 需要置null解除对DOM对象的引用 才能确保回收内存 ???
+    //设置null之后 闭包保存的活动对象中element为null 活动对象中只有变量id 没有DOM对象的引用了 不会造成内存泄漏
+    element = null; //闭包引用函数的整个活动对象 其中包含着element 需要置null解除对DOM对象的引用 才能确保回收内存
 }
 //7.3
 function outputNumbers(count){
@@ -114,7 +115,7 @@ function outputNumbers(count){
     (function(){
         for (var j = 0; j < count; j++) {
             console.log(j);
-            console.log(m); //undefined 闭包函数执行时 引用外部函数活动对象 执行时外部函数中的m还未声明初始化
+            console.log(m); //undefined 闭包函数执行时 引用外部函数活动对象 执行时外部函数中的m还未声明初始化 mark!
             console.log(n); //abc
         }
     })();
@@ -139,9 +140,80 @@ function MyObject(name){
     var testPrivate = 'test_test';
 }
 var my = new MyObject('1122');
-console.log(my.publicMethod()); //1122test_test
-console.log(my.privateVar); //undefined
+console.log(my.publicMethod()); //1122test_test 闭包执行可以访问到之后的testPrivate 注意和上面mark!的区别 此次使用了new创建对象
+//私有变量可能不局限于this是否使用 只要构造函数内部定义 外部创建的对象无法访问即为私有变量 不使用this只是达到目的的一种方式 考虑其他???
+console.log(my.privateVar); //undefined js私有变量外部访问都是undefined 因为私有变量构造函数内部未使用this 即不会为创建的对象声明初始化对应属性
 console.log(MyObject.privateVar); //undefined
+//7.4.1静态私有变量
+console.log('7.4.1静态私有变量');
+(function(){
+    var name = '';
+    Person = function(ve){
+        name = ve;
+    };
+    Person.prototype.getName = function(){
+        console.log(this); //mark1
+        console.log(this.name); //mark2
+        return name;
+    };
+    Person.prototype.setName = function(ve){
+        name = ve;
+    };
+})();
+var person1 = new Person('nicholas');
+console.log(person1.getName()); //nicholas mark1:Person {} mark2:undefined
+var person2 = new Person('michael');
+console.log(person1.getName()); //michael mark1:Person {} mark2:undefined
+console.log(person2.getName()); //michael mark1:Person {} mark2:undefined
+person1.name = 'abcd';
+//注意理解静态私有变量和对象原型中变量的区别 理解this也是一个默认的变量属性 原型中的变量属性只有通过this才能访问
+console.log(person1.getName()); //michael mark1:Person { name: 'abcd' } mark2:abcd
+person1.__proto__.getName(); //mark1:Person { getName: [Function], setName: [Function] } mark2:undefined
+//7.4.2模块模式
+console.log('7.4.2模块模式 为单例创建私有变量和特权方法');
+//对象字面值的方式来创建单例对象
+var singleton = {
+    name : 'abc',
+    age : 27
+};
+console.log(singleton.name);
+//注意application是一个单例对象 因为是由匿名函数返回的一个对象字面量
+var application = function(){
+    //私有变量和函数
+    var components = new Array();
+    //初始化
+    components.push(new Object());
+    //公共
+    return {
+        getComponentCount : function(){
+            return components.length;
+        },
+        registerComponent : function(component){
+            if (typeof component == 'object') {
+                components.push(component);
+            }
+        }
+    };
+}();
+//7.4.3增强的模块模式
+console.log('7.4.3增强的模块模式 为单例创建私有变量和特权方法');
+var application = function(){
+    //私有变量和函数
+    var components = new Array();
+    //初始化
+    components.push(new Object());
+    var app = new Person();
+    app.getComponentCount = function(){
+        return components.length;
+    };
+    app.registerComponent = function(component){
+        if (typeof component == 'object') {
+                components.push(component);
+            }
+    };
+    return app;
+}();
+console.log('testing');
 //闭包和原型的联系 函数的属性和在函数中声明的变量的区别 原型链的搜索和作用域链的搜索???
 var tt = new Function('console.log("123321***********")');
 tt();
