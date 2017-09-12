@@ -1,5 +1,5 @@
 //7.0函数表达式
-var testFunction = function(){
+var testFunction = function() {
     console.log('1');
 };
 testFunction();
@@ -7,14 +7,14 @@ console.log(testFunction.name); //testFunction
 var ff = testFunction;
 console.log(ff.name); //testFunction
 //以下括号中其实是函数声明 加个括号转换成函数表达式 赋值给testFunction
-testFunction = (function a(){
+testFunction = (function a() {
     console.log('abc');
 });
 // console.log(a); //error
 console.log(testFunction.name); //a
 console.log(ff.name); //testFunction
 //命名函数表达式
-var testF = (function f(){
+var testF = (function f() {
     console.log(2);
     // f(); //正常调用 只是造成循环 考虑为什么这里可以正常调用 外部不能通过f()来调用???
 });
@@ -22,8 +22,8 @@ var testF = (function f(){
 testF(); //2
 console.log(testF.name); //f
 //7.2闭包
-function createComparisonFunction(propertyName){
-    return function(object1, object2){
+function createComparisonFunction(propertyName) {
+    return function(object1, object2) {
         var value1 = object1[propertyName];
         var value2 = object2[propertyName];
         if (value1 < value2) {
@@ -47,16 +47,17 @@ function createComparisonFunction(propertyName){
 此时作用域链即为 [[Scope]]的上级作用域链 + 当前换上的活动对象(在此作为变量对象使用)
  */
 var comparison = createComparisonFunction('a');
-var result = comparison({'a' : 'abc'},{'a' : 'bcd'});
+var result = comparison({ 'a': 'abc' }, { 'a': 'bcd' });
 //因为comparison是全局变量 置null解除引用 让值脱离执行环境 以便垃圾收集器下次运行时将其回收 P81页 4.3.4管理内存
 comparison = null;
 //7.2.1
 console.log(result);
-function test(){
+
+function test() {
     var testResult = new Array();
     for (var i = 0; i < 10; i++) {
-        testResult[i] = function(num){
-            return function(){
+        testResult[i] = function(num) {
+            return function() {
                 return num;
             };
         }(i);
@@ -70,8 +71,8 @@ for (var i = 0; i < testArray.length; i++) {
 //7.2.2
 var nameTest = 'the window';
 var objectTest = {
-    nameTest : 'my object',
-    getName : function(){
+    nameTest: 'my object',
+    getName: function() {
         console.log(this.nameTest);
         return this.nameTest;
     }
@@ -83,24 +84,25 @@ objectTest.getName(); //my object
 objectTest.getName = objectTest.getName;
 objectTest.getName(); //my object
 //7.2.3
-function assignHandler(){
+function assignHandler() {
     var element = document.getElementById('someElement');
     //引用element的闭包作为元素事件处理 造成循环引用
-    element.onclick = function(){
+    element.onclick = function() {
         console.log(element.id);
     };
 }
-function assignHandler(){
+
+function assignHandler() {
     var element = document.getElementById('someElement');
     var id = element.id; //避免循环引用
-    element.onclick = function(){
+    element.onclick = function() {
         console.log(id);
     };
     //设置null之后 闭包被调用时保存的活动对象中element为null 活动对象中只有变量id 没有DOM对象的引用了 不会造成内存泄漏
     element = null; //闭包引用函数的整个活动对象 其中包含着element 需要置null解除对DOM对象的引用 才能确保回收内存
 }
 //7.3
-function outputNumbers(count){
+function outputNumbers(count) {
     for (var i = 0; i < count; i++) {
         console.log(i);
     }
@@ -112,7 +114,7 @@ function outputNumbers(count){
 
     n = 'abc';
     //注意必须加一层括号 由函数声明转换为函数表达式 才能立即跟()调用
-    (function(){
+    (function() {
         for (var j = 0; j < count; j++) {
             console.log(j);
             console.log(m); //undefined 闭包函数执行时 引用外部函数活动对象 执行时外部函数中的m还未声明初始化 mark!
@@ -126,13 +128,14 @@ function outputNumbers(count){
 }
 outputNumbers(3);
 //7.4
-function MyObject(name){
+function MyObject(name) {
     var privateVar = 10;
-    function privateFunction(){
+
+    function privateFunction() {
         return name + testPrivate;
     };
     //特权方法
-    this.publicMethod = function(){
+    this.publicMethod = function() {
         privateVar++;
         console.log(testPrivate); //test_test 注意闭包函数调用时在new之后 testPrivate已声明初始化 和7.3模仿块级作用域的区别
         return privateFunction();
@@ -146,17 +149,17 @@ console.log(my.privateVar); //undefined js私有变量外部访问都是undefine
 console.log(MyObject.privateVar); //undefined
 //7.4.1静态私有变量
 console.log('7.4.1静态私有变量');
-(function(){
+(function() {
     var name = '';
-    Person = function(ve){
+    Person = function(ve) {
         name = ve;
     };
-    Person.prototype.getName = function(){
+    Person.prototype.getName = function() {
         console.log(this); //mark1
         console.log(this.name); //mark2
         return name;
     };
-    Person.prototype.setName = function(ve){
+    Person.prototype.setName = function(ve) {
         name = ve;
     };
 })();
@@ -173,22 +176,22 @@ person1.__proto__.getName(); //mark1:Person { getName: [Function], setName: [Fun
 console.log('7.4.2模块模式 为单例创建私有变量和特权方法');
 //对象字面值的方式来创建单例对象
 var singleton = {
-    name : 'abc',
-    age : 27
+    name: 'abc',
+    age: 27
 };
 console.log(singleton.name);
 //注意application是一个单例对象 因为是由匿名函数返回的一个对象字面量
-var application = function(){
+var application = function() {
     //私有变量和函数
     var components = new Array();
     //初始化
     components.push(new Object());
     //公共
     return {
-        getComponentCount : function(){
+        getComponentCount: function() {
             return components.length;
         },
-        registerComponent : function(component){
+        registerComponent: function(component) {
             if (typeof component == 'object') {
                 components.push(component);
             }
@@ -197,19 +200,19 @@ var application = function(){
 }();
 //7.4.3增强的模块模式
 console.log('7.4.3增强的模块模式 为单例创建私有变量和特权方法');
-var application = function(){
+var application = function() {
     //私有变量和函数
     var components = new Array();
     //初始化
     components.push(new Object());
     var app = new Person();
-    app.getComponentCount = function(){
+    app.getComponentCount = function() {
         return components.length;
     };
-    app.registerComponent = function(component){
+    app.registerComponent = function(component) {
         if (typeof component == 'object') {
-                components.push(component);
-            }
+            components.push(component);
+        }
     };
     return app;
 }();
@@ -219,7 +222,7 @@ console.log('testing');
 var tt = new Function('console.log("123321***********")');
 tt();
 console.log(tt.name); //anonymous
-var aa = function(){
+var aa = function() {
     console.log(aa.caller);
     return 123;
 };
@@ -230,7 +233,7 @@ console.log(Object.keys(aa)); //[] 只包含可枚举属性
 console.log(aa.length);
 console.log(aa.caller); //null
 aa.call(my, 1); //aa内部caller为[Function] caller是调用函数的函数 并不是this
-function abc(){
+function abc() {
     aa(); //aa内部caller为[Function: abc]
     console.log(aa.caller); //null
 }
@@ -250,10 +253,9 @@ console.log(aa.caller); //null 思考caller作为aa的一个属性 在函数执�
 console.log(Object.getOwnPropertyNames(aa.__proto__));
 console.log('******分割线******');
 //js命名空间 其实就是 模拟块级作用域 使用示例
-(function(){
+(function() {
     console.log(typeof this);
-    var _NS = function(){
-    };
+    var _NS = function() {};
     /*
     _NS.prototype.select = function(selector,context){
         var context = context || document; //document为容错值
@@ -262,10 +264,10 @@ console.log('******分割线******');
     window.NS = new _NS();
     */
 })();
-var Michael = function(){
+var Michael = function() {
     var kobe = 'bbb';
     this.jordan = 'aaa';
-}; 
+};
 var m = new Michael;
 console.log(m);
 console.log(m.jordan);
@@ -273,22 +275,22 @@ var mm = new Michael();
 console.log(mm);
 console.log(mm.jordan);
 //单例 http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html
-var SingletonTest = function(){
+var SingletonTest = function() {
     var instantiated = null;
     var privateVar = '666';
-    var init = function(){
+    var init = function() {
         return {
-            publicMethod : function(){
+            publicMethod: function() {
                 console.log(privateVar); //666
                 console.log(privateVarTest); //777该函数执行时 上级活动对象中已经完成了privateVarTest的初始化
                 console.log(privateVarTest123); //undefined始终无法执行到初始化代码
             },
-            publicProperty : 'test'
+            publicProperty: 'test'
         };
     };
     var privateVarTest = '777';
     return {
-        getInstance : function(){
+        getInstance: function() {
             if (!instantiated) {
                 instantiated = init();
             }
@@ -302,7 +304,7 @@ var SingletonTest = function(){
     在创建函数时 会先创建一个预先包含所有上级变量对象的作用域链 保存在函数的[[Scope]]内部属性中。函数体在创建时被如何处理???
     当调用函数时 会为函数创建一个执行环境(变量对象) 通过复制[[Scope]]属性中的对象构建起执行环境的作用域链 然后 用(有没有this???)arguments和其他命名参数的值来初始化当前函数的活动对象(在此作为变量对象使用)并被推入执行环境作用域链的前端。
     */
-    var testFF = function(){
+    var testFF = function() {
         console.log('123456');
     };
 }();
@@ -311,14 +313,13 @@ eval(console.log(SingletonTest)); //same to below
 eval('console.log(SingletonTest)');
 //ECMAScript动态性 http://www.cnblogs.com/manfredHu/p/4914272.html
 var slice = Function.prototype.call.bind(Array.prototype.slice);
-console.log(slice([1,2,3],0,1)); //[ 1 ] 等同于 Array.prototype.slice.call([1,2,3],0,1) 如下
-console.log(Array.prototype.slice.call([1,2,3],0,1)); //[ 1 ]
+console.log(slice([1, 2, 3], 0, 1)); //[ 1 ] 等同于 Array.prototype.slice.call([1,2,3],0,1) 如下
+console.log(Array.prototype.slice.call([1, 2, 3], 0, 1)); //[ 1 ]
 var bind = Function.prototype.call.bind(Function.prototype.bind);
-var obj = {foo : 'abc'};
-function returnFoo(){
+var obj = { foo: 'abc' };
+
+function returnFoo() {
     return this.foo;
 }
-var amazing = bind(returnFoo,obj);
+var amazing = bind(returnFoo, obj);
 console.log(amazing()); //abc
-
-
