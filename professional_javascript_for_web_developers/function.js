@@ -309,6 +309,16 @@ var SingletonTest = function(){
 SingletonTest.getInstance().publicMethod();
 eval(console.log(SingletonTest)); //same to below
 eval('console.log(SingletonTest)');
-//http://www.cnblogs.com/manfredHu/p/4914272.html
+//ECMAScript动态性 http://www.cnblogs.com/manfredHu/p/4914272.html
+var slice = Function.prototype.call.bind(Array.prototype.slice);
+console.log(slice([1,2,3],0,1)); //[ 1 ] 等同于 Array.prototype.slice.call([1,2,3],0,1) 如下
+console.log(Array.prototype.slice.call([1,2,3],0,1)); //[ 1 ]
+var bind = Function.prototype.call.bind(Function.prototype.bind);
+var obj = {foo : 'abc'};
+function returnFoo(){
+    return this.foo;
+}
+var amazing = bind(returnFoo,obj);
+console.log(amazing()); //abc
 
 
