@@ -96,7 +96,7 @@ function assignHandler(){
     element.onclick = function(){
         console.log(id);
     };
-    //设置null之后 闭包保存的活动对象中element为null 活动对象中只有变量id 没有DOM对象的引用了 不会造成内存泄漏
+    //设置null之后 闭包被调用时保存的活动对象中element为null 活动对象中只有变量id 没有DOM对象的引用了 不会造成内存泄漏
     element = null; //闭包引用函数的整个活动对象 其中包含着element 需要置null解除对DOM对象的引用 才能确保回收内存
 }
 //7.3
@@ -142,7 +142,7 @@ function MyObject(name){
 var my = new MyObject('1122');
 console.log(my.publicMethod()); //1122test_test 闭包执行可以访问到之后的testPrivate 注意和上面mark!的区别 此次使用了new创建对象
 //私有变量可能不局限于this是否使用 只要构造函数内部定义 外部创建的对象无法访问即为私有变量 不使用this只是达到目的的一种方式 考虑其他???
-console.log(my.privateVar); //undefined js私有变量外部访问都是undefined 因为私有变量构造函数内部未使用this 即不会为创建的对象声明初始化对应属性
+console.log(my.privateVar); //undefined js私有变量外部访问都是undefined 因为私有变量构造函数内部未使用this 不会为创建的对象声明初始化对应属性
 console.log(MyObject.privateVar); //undefined
 //7.4.1静态私有变量
 console.log('7.4.1静态私有变量');
@@ -166,7 +166,7 @@ var person2 = new Person('michael');
 console.log(person1.getName()); //michael mark1:Person {} mark2:undefined
 console.log(person2.getName()); //michael mark1:Person {} mark2:undefined
 person1.name = 'abcd';
-//注意理解静态私有变量和对象原型中变量的区别 理解this也是一个默认的变量属性 原型中的变量属性只有通过this才能访问
+//注意理解静态私有变量和对象原型中变量的区别 理解this也是一个默认的变量属性 this.name和name的区别
 console.log(person1.getName()); //michael mark1:Person { name: 'abcd' } mark2:abcd
 person1.__proto__.getName(); //mark1:Person { getName: [Function], setName: [Function] } mark2:undefined
 //7.4.2模块模式
@@ -213,6 +213,7 @@ var application = function(){
     };
     return app;
 }();
+//testing
 console.log('testing');
 //闭包和原型的联系 函数的属性和在函数中声明的变量的区别 原型链的搜索和作用域链的搜索???
 var tt = new Function('console.log("123321***********")');
@@ -247,4 +248,67 @@ console.log(aa.caller); //null 思考caller作为aa的一个属性 在函数执�
   'constructor' ]
 */
 console.log(Object.getOwnPropertyNames(aa.__proto__));
+console.log('******分割线******');
+//js命名空间 其实就是 模拟块级作用域 使用示例
+(function(){
+    console.log(typeof this);
+    var _NS = function(){
+    };
+    /*
+    _NS.prototype.select = function(selector,context){
+        var context = context || document; //document为容错值
+        return context.querySelectorAll(selector);
+    };
+    window.NS = new _NS();
+    */
+})();
+var Michael = function(){
+    var kobe = 'bbb';
+    this.jordan = 'aaa';
+}; 
+var m = new Michael;
+console.log(m);
+console.log(m.jordan);
+var mm = new Michael();
+console.log(mm);
+console.log(mm.jordan);
+//单例 http://www.cnblogs.com/TomXu/archive/2012/02/20/2352817.html
+var SingletonTest = function(){
+    var instantiated = null;
+    var privateVar = '666';
+    var init = function(){
+        return {
+            publicMethod : function(){
+                console.log(privateVar); //666
+                console.log(privateVarTest); //777该函数执行时 上级活动对象中已经完成了privateVarTest的初始化
+                console.log(privateVarTest123); //undefined始终无法执行到初始化代码
+            },
+            publicProperty : 'test'
+        };
+    };
+    var privateVarTest = '777';
+    return {
+        getInstance : function(){
+            if (!instantiated) {
+                instantiated = init();
+            }
+            // testFF(); //如果执行不到该行 编译不会报错
+            return instantiated;
+        }
+    };
+    var privateVarTest123 = '888';
+    //考虑创建一个函数内部都做了哪些操作
+    /*
+    在创建函数时 会先创建一个预先包含所有上级变量对象的作用域链 保存在函数的[[Scope]]内部属性中。函数体在创建时被如何处理???
+    当调用函数时 会为函数创建一个执行环境(变量对象) 通过复制[[Scope]]属性中的对象构建起执行环境的作用域链 然后 用(有没有this???)arguments和其他命名参数的值来初始化当前函数的活动对象(在此作为变量对象使用)并被推入执行环境作用域链的前端。
+    */
+    var testFF = function(){
+        console.log('123456');
+    };
+}();
+SingletonTest.getInstance().publicMethod();
+eval(console.log(SingletonTest)); //same to below
+eval('console.log(SingletonTest)');
+//http://www.cnblogs.com/manfredHu/p/4914272.html
+
 
