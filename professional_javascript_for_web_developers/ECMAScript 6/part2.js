@@ -41,3 +41,40 @@ let testNewLine = `test news
 line`;
 console.log(testNewLine);
 console.log(testNewLine.length); //20 注意news后面有空格
+let html = `
+<div>
+    <h1>title</h1>
+</div>`;
+console.log(html);
+console.log(html.trim()); //去除开头的空行
+let count = 10,
+    price = 0.25,
+    messageTest = `${count} items cost $${(count * price).toFixed(2)}.`;
+console.log(messageTest); //10 items cost $2.50.
+console.log('标签模板');
+let cc = 10,
+    pp = 0.25,
+    mm = passthru `${cc} items cost $${(cc * pp).toFixed(2)}${123}`;
+
+function passthru(literals, ...substitutions) {
+    console.log(arguments); //{ '0': [ '', ' items cost $', '', '' ], '1': 10, '2': '2.50', '3': 123 }
+    console.log(literals); //[ '', ' items cost $', '', '' ]
+    console.log(substitutions); //[ 10, '2.50', 123 ]
+    return '123';
+}
+console.log(mm); //123
+let message1 = `test\nstring`;
+message2 = String.raw `test
+string`;
+message3 = String.raw `test\nstring`;
+/*
+test
+string
+ */
+console.log(message1);
+/*
+test
+string
+ */
+console.log(message2);
+console.log(message3); //test\nstring 所有字符转义 包括Unicode码位转义 都会输出他们的原生形式
