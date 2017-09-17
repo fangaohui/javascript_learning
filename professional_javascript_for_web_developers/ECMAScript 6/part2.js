@@ -59,6 +59,7 @@ let cc = 10,
 function passthru(literals, ...substitutions) {
     console.log(arguments); //{ '0': [ '', ' items cost $', '', '' ], '1': 10, '2': '2.50', '3': 123 }
     console.log(literals); //[ '', ' items cost $', '', '' ]
+    console.log(literals.raw[1]); //items cost $
     console.log(substitutions); //[ 10, '2.50', 123 ]
     return '123';
 }

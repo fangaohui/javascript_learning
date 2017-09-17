@@ -16,8 +16,13 @@ function add(first, second = getValue(first)){
 }
 console.log(add(2,1)); //3
 console.log(add(2)); //9
-function addTest(firstTest = secondTest, secondTest){
+function addTest(firstTest = testTDZ(secondTest), secondTest){
     return firstTest;
 }
+function testTDZ(value){
+    console.log(typeof value);
+    console.log('testTDZ');
+    return value + 10;
+}
 console.log(addTest(1)); //1
-// console.log(addTest(undefined,1)); //error 参数默认值访问了处在临时死区的变量secondTest
+// console.log(addTest(undefined,1)); //error 参数默认值访问了处在临时死区的变量secondTest secondTest未定义前(即函数被调用前)不可被引用
