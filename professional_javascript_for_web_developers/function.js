@@ -56,11 +56,11 @@ console.log(result);
 function test() {
     var testResult = new Array();
     for (var i = 0; i < 10; i++) {
-        testResult[i] = function(num) {
+        testResult[i] = (function(num) {
             return function() {
                 return num;
             };
-        }(i);
+        }(i));
     }
     return testResult;
 }
@@ -68,6 +68,7 @@ var testArray = test();
 for (var i = 0; i < testArray.length; i++) {
     console.log(testArray[i]()); //0-9
 }
+console.log('7.2.2');
 //7.2.2
 var nameTest = 'the window';
 var objectTest = {
