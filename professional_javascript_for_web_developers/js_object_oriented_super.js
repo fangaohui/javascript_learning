@@ -113,7 +113,6 @@ function inheritPrototype(sub1, super1) {
     prototype.constructor = sub1;
     sub1.prototype = prototype;
 }
-
 function Super(name) {
     this.name = 'abc';
     this.colors = ['1', '2'];
@@ -121,7 +120,6 @@ function Super(name) {
 Super.prototype.sayName = function() {
     console.log(this.name);
 };
-
 function Sub(name, age) {
     Super.call(this, name);
     this.age = age;
