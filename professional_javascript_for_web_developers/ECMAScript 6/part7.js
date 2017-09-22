@@ -23,6 +23,8 @@ testSet.delete(q);
 console.log(testSet); //Set { 1, 2, 3, 4, 5, [ 7, 8 ]}
 testSet.clear();
 console.log(testSet.size); //0
+testSet.add(null);
+console.log(testSet); //Set { null }
 var u = new Set([1,2,3,4,5,6,7]);
 u.forEach((value,key,ownerSet) => {
     console.log(key + ' ' + value);
@@ -49,12 +51,18 @@ pro.process1(u);
 var arr = [...u];
 console.log(arr); //[ 1, 2, 3, 4, 5, 6, 7 ]
 var wu = new WeakSet([pro]);
-console.log(wu);
-pro = null;
-console.log(wu);
+console.log(wu.has(pro)); //true
+//打印看不出是否包含对象引用 只能用has()
+console.log(wu); //WeakSet {}
 wu.delete(pro);
-console.log(wu);
-// var wu = new WeakSet([1,{}]); //error WwakSet不接受任何原始值 必须是一个对象的引用
+console.log(wu); //WeakSet {}
+console.log(wu.has(pro)); //false
+//WeakSet不接受任何原始值 只能是对象
+// wuu = new WeakSet(['123']); //error
+wuu = new WeakSet([{},{}]);
+// var wuu = new WeakSet({}); //error
+// var object111 = null;
+// wuu.add(object111); //error
 var hh = {};
 let map = new Map();
 map.set('name','wendy');
@@ -71,6 +79,42 @@ Map {
  */
 console.log(map);
 console.log(map.has(hh)); //true
+console.log('对象的私有属性');
+/*
+//ECMAScript5的实现
+//缺点是privateDatas中保存的变量是强引用 即便外部对象释放后 privateDatas中的属性值也无法释放
+var Ball = (function(){
+    //通过IIFE创建私有变量 privateDatas和privateDataId
+    var privateDatas = {};
+    var privateDataId = 0;
+    function BallInside(name) {
+        console.log(this);
+        Object.defineProperty(this, '_id', {value : privateDataId++});
+        privateDatas[this._id] = {
+            name : name
+        };
+    }
+    BallInside.prototype.getName = function(){
+        return privateDatas[this._id].name;
+    }
+    return BallInside;
+})();
+*/
+//ES6使用WeakMap实现 当外部对象释放后 WeakMap存储的私有信息也会被释放
+var Ball = (function(){
+    let privateDatas = new WeakMap();
+    function BallInside(name) {
+        privateDatas.set(this,{name : name});
+    }
+    BallInside.prototype.getName = function(){
+        return privateDatas.get(this).name;
+    }
+    return BallInside;
+})();
+console.log(Ball);
+var football = new Ball('abc');
+console.log(football.getName()); //abc
+
 
 
 

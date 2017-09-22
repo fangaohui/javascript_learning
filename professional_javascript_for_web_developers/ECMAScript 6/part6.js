@@ -115,8 +115,16 @@ console.log(honey.toString()); //wendy
 console.log(Object.prototype.toString.call(honey)); //[object Baobao]
 console.log(honey.__proto__.toString == Object.prototype.toString); //false
 console.log(honey.__proto__.toString == Baobao.prototype.toString); //true
+console.log(Baobao.prototype.constructor);
+console.log(Baobao.prototype instanceof Object);
+console.log(Object.prototype.toString);
+Object.prototype.toString = function(){
+    return this.name;
+};
+console.log(Object.prototype.toString.call(honey)); //wendy
 
-
+//mark
+//增加 响应式编程 函数式编程 mvvm 前端状态管理 概念的理解
 
 
 
