@@ -68,6 +68,7 @@ var ary = [1,2,3,4,5];
 console.log(Object.getOwnPropertyDescriptor(ary,'length'));
 console.log(Object.getOwnPropertyDescriptor(ary,Symbol.iterator)); //undefined
 console.log(Object.getOwnPropertySymbols(ary)); //[]
+//for..of循环为未指定entries()/values()/keys()时 array和set默认迭代器为values() map默认迭代器为entries()
 console.log(ary[Symbol.iterator]); //[Function: values]
 console.log(Symbol.iterator); //Symbol(Symbol.iterator)
 console.log(Symbol.hasInstance); //Symbol(Symbol.hasInstance)
@@ -94,12 +95,53 @@ console.log(uui.next()); //{ value: 'abc', done: false }
 console.log(uui.next()); //{ value: 'bbb', done: false }
 console.log(uui.next()); //{ value: 'abcbbb', done: false }
 console.log(Symbol.iterator);
-//customObj实现了
+//customObj实现了Symbol.iterator属性 才可使用for..of循环
 for(let y of customObj){
     console.log(y);
 }
-
-
-
+let data = new Set([1,2,3]);
+data.testForin = '123';
+for(let[k,v] of data.entries()){
+    console.log(k + v);
+}
+/*
+//for..in循环用来迭代对象的属性名
+testForin
+123
+ */
+for(var kk in data){
+    console.log(kk);
+    console.log(data[kk]);
+}
+var message = 'a 𠮷 b';
+for(let h of message){
+    console.log(h);
+}
+let messageAry = [9,...message,...customObj];
+console.log(messageAry); //[ 9, 'a', ' ', '𠮷', ' ', 'b', 'abc', 'bbb', 'abcbbb' ]
+function *createIter(){
+    let zero = 100;
+    let first = yield 1 + zero;
+    let second = yield first + 2 + zero;
+    yield second + 3;
+    let five;
+    try {
+        five = yield second + 77;
+    } catch(ex) {
+        five = 1090;
+    }
+    var six = yield five + 1000;
+    console.log('yield value ' + six); //yield value 12 因为以下调用next()传了参数12
+    return 1122;
+    yield six + 9;
+}
+var ite = createIter();
+console.log(ite.next(12)); //{ value: 101, done: false }
+console.log(ite.next(12)); //{ value: 114, done: false }
+console.log(ite.next(12)); //{ value: 15, done: false }
+console.log(ite.next(12)); //{ value: 89, done: false }
+console.log(ite.throw(new Error('boom'))); //{ value: 2090, done: false }
+console.log(ite.next(12)); //{ value: 1122, done: true } 已经return
+console.log(ite.next(12)); //{ value: undefined, done: true }
 
 
