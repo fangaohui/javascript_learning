@@ -58,7 +58,7 @@ var oo = o.tt();
 console.log(oo.next()); //{ value: 44, done: false }
 console.log(oo.next()); //{ value: undefined, done: true }
 console.log(o.cc()); //{ aaa: 123456 }
-var ary = new Set([1,2,3,4,5]);
+var ary = [1,2,3,4,5];
 /*
 { value: 5,
   writable: true,
@@ -66,10 +66,10 @@ var ary = new Set([1,2,3,4,5]);
   configurable: false }
 */
 console.log(Object.getOwnPropertyDescriptor(ary,'length'));
-console.log(Object.getOwnPropertyDescriptor(ary,Symbol.interator)); //undefined ???
-console.log(Object.getOwnPropertySymbols(ary)); //[] ???
-console.log(ary[Symbol.interator]); //undefined ???
-console.log(Symbol.interator); //undefined ???
+console.log(Object.getOwnPropertyDescriptor(ary,Symbol.iterator)); //undefined
+console.log(Object.getOwnPropertySymbols(ary)); //[]
+console.log(ary[Symbol.iterator]); //[Function: values]
+console.log(Symbol.iterator); //Symbol(Symbol.iterator)
 console.log(Symbol.hasInstance); //Symbol(Symbol.hasInstance)
 console.log(ary.constructor[Symbol.hasInstance]); //[Function: [Symbol.hasInstance]]
 console.log(typeof ary.constructor); //function
@@ -77,26 +77,27 @@ console.log('自定义可迭代对象');
 var customObj = {
     rr : 'abc',
     ww : 'bbb',
-    *[Symbol.interator](){
+    *[Symbol.iterator](){
         yield this.rr;
         yield this.ww;
         yield this.rr + this.ww;
     }
 };
 console.log(testCreateInterator); //[GeneratorFunction: testCreateInterator]
-console.log(testCreateInterator([2,3]).next());
-console.log(customObj[Symbol.interator]); //[GeneratorFunction: undefined]
+console.log(customObj[Symbol.iterator]); //[GeneratorFunction: [Symbol.iterator]]
 //注意以下三行的结果 三次调用生成器函数创建了三个不同的迭代器对象
-console.log(customObj[Symbol.interator]().next()); //{ value: 'abc', done: false }
-console.log(customObj[Symbol.interator]().next()); //{ value: 'abc', done: false }
-console.log(customObj[Symbol.interator]().next()); //{ value: 'abc', done: false }
-var uui = customObj[Symbol.interator]();
+console.log(customObj[Symbol.iterator]().next()); //{ value: 'abc', done: false }
+console.log(customObj[Symbol.iterator]().next()); //{ value: 'abc', done: false }
+console.log(customObj[Symbol.iterator]().next()); //{ value: 'abc', done: false }
+var uui = customObj[Symbol.iterator]();
 console.log(uui.next()); //{ value: 'abc', done: false }
 console.log(uui.next()); //{ value: 'bbb', done: false }
 console.log(uui.next()); //{ value: 'abcbbb', done: false }
-// for(let y of customObj){
-//     console.log(y);
-// }
+console.log(Symbol.iterator);
+//customObj实现了
+for(let y of customObj){
+    console.log(y);
+}
 
 
 
