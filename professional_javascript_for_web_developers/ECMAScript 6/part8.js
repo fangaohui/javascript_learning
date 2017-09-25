@@ -143,5 +143,60 @@ console.log(ite.next(12)); //{ value: 89, done: false }
 console.log(ite.throw(new Error('boom'))); //{ value: 2090, done: false }
 console.log(ite.next(12)); //{ value: 1122, done: true } 已经return
 console.log(ite.next(12)); //{ value: undefined, done: true }
-
+console.log('考虑解构 展开符???');
+console.log('生成器委托');
+function *iter1(){
+    yield 123;
+    yield 1234;
+}
+function *iter2(){
+    yield 333;
+    yield 4444;
+}
+function *iterT(){
+    yield iter1();
+    yield *iter2();
+    yield true;
+    return 4;
+}
+var iitt = iterT();
+console.log(iitt); //{}
+console.log(iitt.next()); //{ value: {}, done: false }
+console.log(iitt.next()); //{ value: 333, done: false }
+console.log(iitt.next()); //{ value: 4444, done: false }
+console.log(iitt.next()); //{ value: true, done: false }
+console.log(iitt.next()); //{ value: 100, done: true }
+function *iterS(){
+    var iS = yield *iterT();
+    yield *iterG(iS);
+}
+function *iterG(count){
+    for (var i = 0; i < count; i++) {
+        yield *'re'; //!!!!!!
+    }
+}
+var iss = iterS();
+console.log(iss.next());
+console.log(iss.next());
+console.log(iss.next());
+console.log(iss.next());
+//4次rep
+console.log(iss.next()); //{ value: 'r', done: false }
+console.log(iss.next()); //{ value: 'e', done: false }
+console.log(iss.next()); //{ value: 'r', done: false }
+console.log(iss.next()); //{ value: 'e', done: false }
+console.log(iss.next()); //{ value: 'r', done: false }
+console.log(iss.next()); //{ value: 'e', done: false }
+console.log(iss.next()); //{ value: 'r', done: false }
+console.log(iss.next()); //{ value: 'e', done: false }
+console.log(iss.next()); //{ value: undefined, done: true }
+var abc = {
+    testDelegate(v,s){
+        console.log(v);
+        s.call(abc);
+    }
+};
+abc.testDelegate(123,function(){
+    console.log(this);
+});
 
