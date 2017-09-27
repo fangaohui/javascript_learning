@@ -124,7 +124,16 @@ function Sub(name, age) {
     Super.call(this, name);
     this.age = age;
 }
-inheritPrototype(Sub, Super);
+// inheritPrototype(Sub, Super);
+//使用Object.create()函数传入第二个参数 等同于inheritPrototype()函数
+Sub.prototype = Object.create(Super.prototype,{
+    constructor : {
+        value : Sub,
+        enumerable : true,
+        writable : true,
+        configurable : true
+    }
+});
 Sub.prototype.sayAge = function() {
     console.log(this.age);
 };
