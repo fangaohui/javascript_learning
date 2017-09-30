@@ -25,7 +25,7 @@ Ev.prototype = {
 };
 var myO = {};
 mixin(myO, Ev.prototype);
-//mixin()函数时Object.assign()函数的内部实现 使用赋值操作符来复制相关属性 但不能复制访问器属性
+//mixin()函数是Object.assign()函数的内部实现 使用赋值操作符来复制相关属性 但不能复制访问器属性
 //因为是赋值操作 所以访问器属性最终会转变为接收对象中的数据属性
 Object.assign(myO, Ev.prototype);
 myO.emit('test');

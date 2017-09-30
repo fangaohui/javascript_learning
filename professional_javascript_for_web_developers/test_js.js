@@ -60,12 +60,12 @@ console.log(s2);
 s1.color = 'red';
 //每次访问基本类型的值s1的过程处于一种读取模式 此时上一行new的s1已经被置null 该行的s1会从内存中再次读取创建String对象 没有color属性
 console.log(s1.color); //undefined
-var s3 = new String('some text'); //Number的实例 Number的实例 Number的实例 重要的事情说三遍
+var s3 = new String('some text');
 s3.color = 'blue';
 console.log(s3.color); //blue new调用基本包装类型构造函数 在执行流离开当前作用域之前一直保持在内存中 不会出现上面的问题
 var value = '25';
 var number = Number(value); //调用转型函数 number中保存的是基本类型的值 基本类型的值 基本类型的值 25
-var obj = new Number(value); //调用构造函数 obj中保存的是Number的实例 Number的实例 Number的实例
+var obj = new Number(value); //调用构造函数 obj中保存的是Number的实例 Number的实例 Number的实例 重要的事情说三遍
 //Boolean类型
 var falseObject = new Boolean(false);
 var result = falseObject && true; //true falseObject是对象 对falseObject而不是对它的值进行求值 对象都会被转换为true

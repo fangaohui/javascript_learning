@@ -74,6 +74,7 @@ console.log(Symbol.iterator); //Symbol(Symbol.iterator)
 console.log(Symbol.hasInstance); //Symbol(Symbol.hasInstance)
 console.log(ary.constructor[Symbol.hasInstance]); //[Function: [Symbol.hasInstance]]
 console.log(typeof ary.constructor); //function
+//***************************************************************************************************************************
 console.log('自定义可迭代对象');
 var customObj = {
     rr : 'abc',
@@ -94,6 +95,12 @@ var uui = customObj[Symbol.iterator]();
 console.log(uui.next()); //{ value: 'abc', done: false }
 console.log(uui.next()); //{ value: 'bbb', done: false }
 console.log(uui.next()); //{ value: 'abcbbb', done: false }
+var testuui = customObj[Symbol.iterator].call(ary);
+console.log(testuui.next()); //{ value: undefined, done: false }
+console.log(testuui.next()); //{ value: undefined, done: false }
+console.log(testuui.next()); //{ value: NaN, done: false }
+console.log(testuui.next()); //{ value: undefined, done: true }
+//***************************************************************************************************************************
 console.log(Symbol.iterator);
 //customObj实现了Symbol.iterator属性 才可使用for..of循环
 for(let y of customObj){
@@ -259,6 +266,7 @@ asyncRun(function*(){
     console.log('Done with ' + contents);
 });
 console.log('测试测试');
+//***************************************************************************************************************************
 function *testoo(){
     var oop = yield 234;
     console.log(oop); //undefined
@@ -289,12 +297,6 @@ console.log(toot.next(222)); //{ value: 10006, done: false } 这里传值不影�
 console.log(toot.next());
 console.log(toot.next()); //{ value: 449, done: true }
 console.log(toot.next()); //{ value: undefined, done: true }
-
-
-
-
-
-
-
+//***************************************************************************************************************************
 
 
