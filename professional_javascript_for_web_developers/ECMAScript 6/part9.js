@@ -103,9 +103,17 @@ console.log(typeof abcd); //undefined
 class Collection {
     constructor(){
         this.items = [];
+        this.aaa = '123';
     }
     *[Symbol.iterator](){
-        yield *this.items.values();
+        yield *this.items.entries();
+    }
+    //访问器属性创建在原型上 不可枚举
+    get html(){
+        return this.aaa;
+    }
+    set html(item){
+        this.aaa = item;
     }
 }
 var collection = new Collection();
@@ -113,12 +121,17 @@ collection.items.push(1);
 collection.items.push(3);
 collection.items.push(5);
 console.log(collection.items);
-/*
-//为什么error???
-for(let xxx of collection){
-    console.log(xxx);
+console.log(collection.html); //123
+collection.html = '444';
+console.log(collection.html); //444
+console.log(collection.items.keys());
+console.log(collection.items.entries());
+console.log(collection.items.entries); //[Function: entries]
+console.log(collection.items.values); //undefined
+// console.log(collection.items.values()); //error 数组没有values()生成器???
+for(let crea of collection){
+    console.log(crea);
 }
- */
 console.log('继承');
 class Rectangle{
     constructor(length,width){

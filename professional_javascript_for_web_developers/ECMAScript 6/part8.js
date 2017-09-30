@@ -122,6 +122,7 @@ console.log(messageAry); //[ 9, 'a', ' ', '𠮷', ' ', 'b', 'abc', 'bbb', 'abcbb
 function *createIter(){
     let zero = 100;
     let first = yield 1 + zero;
+    console.log(first + 1);
     let second = yield first + 2 + zero;
     yield second + 3;
     let five;
@@ -137,7 +138,7 @@ function *createIter(){
 }
 var ite = createIter();
 console.log(ite.next(12)); //{ value: 101, done: false }
-console.log(ite.next(12)); //{ value: 114, done: false }
+console.log(ite.next()); //{ value: NaN, done: false }
 console.log(ite.next(12)); //{ value: 15, done: false }
 console.log(ite.next(12)); //{ value: 89, done: false }
 console.log(ite.throw(new Error('boom'))); //{ value: 2090, done: false }
@@ -165,9 +166,11 @@ console.log(iitt.next()); //{ value: {}, done: false }
 console.log(iitt.next()); //{ value: 333, done: false }
 console.log(iitt.next()); //{ value: 4444, done: false }
 console.log(iitt.next()); //{ value: true, done: false }
-console.log(iitt.next()); //{ value: 100, done: true }
+console.log(iitt.next()); //{ value: 4, done: true }
 function *iterS(){
     var iS = yield *iterT();
+    console.log(iS);
+    // var aS = yield 123 + iS;
     yield *iterG(iS);
 }
 function *iterG(count){
@@ -255,6 +258,42 @@ asyncRun(function*(){
     let contents = yield fetchData(123);
     console.log('Done with ' + contents);
 });
+console.log('测试测试');
+function *testoo(){
+    var oop = yield 234;
+    console.log(oop); //undefined
+    oop = yield oop + 100;
+    yield oop + 1000000;
+    var io = yield *testooq();
+    console.log(io); //6
+    yield *testuup(io);
+    return 449;
+}
+//如果无return值 则委托该生成器的生成器中无法获取值 比如次例中testoo生成器的io变量
+function *testooq(){
+    yield 12;
+    yield 445;
+    return 6;
+}
+function *testuup(paa){
+    yield paa + 10000;
+    yield paa + 100000;
+}
+var toot = testoo();
+console.log(toot.next()); //{ value: 234, done: false }
+console.log(toot.next()); //{ value: NaN, done: false }
+console.log(toot.next(1)); //{ value: 1000001, done: false }
+console.log(toot.next());
+console.log(toot.next()); //{ value: 445, done: false }
+console.log(toot.next(222)); //{ value: 10006, done: false } 这里传值不影响之后的迭代?!
+console.log(toot.next());
+console.log(toot.next()); //{ value: 449, done: true }
+console.log(toot.next()); //{ value: undefined, done: true }
+
+
+
+
+
 
 
 
