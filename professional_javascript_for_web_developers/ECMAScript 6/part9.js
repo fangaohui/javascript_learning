@@ -152,3 +152,63 @@ class Square extends Rectangle{
     }
 }
 var atest = new Square();
+
+
+
+
+console.log('test----test');
+function MakeFunction(){
+
+}
+var MakeClass = class MakeClass1 {
+    constructor(para){
+        this.bbq = 1;
+        console.log(MakeClass1);
+    }
+    mm(){
+        console.log('shit');
+        console.log(MakeClass1);
+    }
+    set hh(bbq){
+        this.bbq = bbq;
+    }
+    get hh(){
+        return this.bbq;
+    }
+}
+let make = new MakeClass();
+make.hh = 1111;
+console.log(make.hh);
+make.mm();
+//注意类和函数原型对象属性特征值writable的区别
+/*
+{ value: MakeClass1 {},
+  writable: false,
+  enumerable: false,
+  configurable: false }
+ */
+console.log(Object.getOwnPropertyDescriptor(MakeClass,'prototype'));
+/*
+{ value: MakeFunction {},
+  writable: true,
+  enumerable: false,
+  configurable: false }
+ */
+console.log(Object.getOwnPropertyDescriptor(MakeFunction,'prototype'));
+//函数的name属性和类的name属性特征值相同 都为不可写 所谓类属性还有哪些?
+/*
+{ value: 'MakeFunction',
+  writable: false,
+  enumerable: false,
+  configurable: true }
+ */
+console.log(Object.getOwnPropertyDescriptor(MakeFunction,'name'));
+/*
+{ value: 'MakeClass1',
+  writable: false,
+  enumerable: false,
+  configurable: true }
+ */
+console.log(Object.getOwnPropertyDescriptor(MakeClass,'name'));
+
+
