@@ -260,7 +260,7 @@ function createBall(...paras){
 }
 class bigBall extends createBall(basket,foot) {
     constructor(nb){
-        super();
+        super(123);
         this.aacc = nb;
     }
 }
@@ -285,4 +285,52 @@ class newArray extends Array{
 var balls = new newArray();
 balls[0] = 123;
 console.log(balls.length); //1
+console.log(balls.slice(1,1)); //newArray []
+console.log(newArray[Symbol.species]); //[Function: newArray]
+console.log(Array[Symbol.species]); //[Function: Array]
+console.log(balls[Symbol.species]); //undefined
+console.log(balls.constructor[Symbol.species]); //[Function: newArray]
+console.log(newArray.prototype[Symbol.species]); //undefined
+console.log('Symbol.speciel属性');
+class mClass{
+    static get [Symbol.species](){
+        return this;
+    }
+    constructor(value){
+        this.value = value;
+    }
+    clone(){
+        return new this.constructor[Symbol.species](this.value);
+    }
+}
+class mmClass extends mClass{
+
+}
+class mmmClass extends mClass{
+    static get [Symbol.species](){
+        return mClass;
+    }
+}
+let instance1 = new mmClass('abc'),
+    clone1 = instance1.clone(),
+    instance2 = new mmmClass('bca');
+    clone2 = instance2.clone();
+console.log(clone1 instanceof mClass); //true
+console.log(clone1 instanceof mmClass); //true
+console.log(clone2 instanceof mClass); //true
+console.log(clone2 instanceof mmmClass); //false
+console.log(instance1.constructor); //[Function: mmClass]
+console.log(instance1.constructor[Symbol.species]); //[Function: mmClass]
+//注意理解静态访问器属性的继承???
+console.log(mClass[Symbol.species] === mmClass[Symbol.species]); //false 是get方法返回的this值不同 但get函数是同一函数
+console.log(Object.getOwnPropertyDescriptor(mClass,Symbol.species).get); //[Function: get [Symbol.species]]
+console.log(Object.getOwnPropertyDescriptor(mmClass,Symbol.species)); //undefined
+console.log(Object.getOwnPropertyDescriptor(mmmClass,Symbol.species).get); //[Function: get [Symbol.species]]
+
+
+
+
+
+
+
 
