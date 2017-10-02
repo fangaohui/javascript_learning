@@ -300,6 +300,7 @@ class mClass{
         this.value = value;
     }
     clone(){
+        console.log(this);
         return new this.constructor[Symbol.species](this.value);
     }
     cloneTest(){
@@ -322,6 +323,7 @@ let instance1 = new mmClass('abc'),
     instance2 = new mmmClass('bca');
     clone2 = instance2.clone();
     instance4 = new mClass('aaa');
+console.log('test static');
 console.log(clone1 instanceof mClass); //true
 console.log(clone1 instanceof mmClass); //true
 console.log(clone2 instanceof mClass); //true
