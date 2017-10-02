@@ -302,6 +302,12 @@ class mClass{
     clone(){
         return new this.constructor[Symbol.species](this.value);
     }
+    cloneTest(){
+        return new this.constructor(this.value);
+    }
+    static testStatic(){
+        return 1234;
+    }
 }
 class mmClass extends mClass{
 
@@ -315,19 +321,39 @@ let instance1 = new mmClass('abc'),
     clone1 = instance1.clone(),
     instance2 = new mmmClass('bca');
     clone2 = instance2.clone();
+    instance4 = new mClass('aaa');
 console.log(clone1 instanceof mClass); //true
 console.log(clone1 instanceof mmClass); //true
 console.log(clone2 instanceof mClass); //true
 console.log(clone2 instanceof mmmClass); //false
 console.log(instance1.constructor); //[Function: mmClass]
 console.log(instance1.constructor[Symbol.species]); //[Function: mmClass]
+console.log(instance4.constructor[Symbol.species]); //[Function: mClass]
 //注意理解静态访问器属性的继承???
 console.log(mClass[Symbol.species] === mmClass[Symbol.species]); //false 是get方法返回的this值不同 但get函数是同一函数
 console.log(Object.getOwnPropertyDescriptor(mClass,Symbol.species).get); //[Function: get [Symbol.species]]
 console.log(Object.getOwnPropertyDescriptor(mmClass,Symbol.species)); //undefined
 console.log(Object.getOwnPropertyDescriptor(mmmClass,Symbol.species).get); //[Function: get [Symbol.species]]
-
-
+console.log(Object.getOwnPropertyDescriptor(mmClass,'testStatic')); //undefined
+let clone3 = instance1.cloneTest();
+console.log(clone1.constructor); //[Function: mmClass]
+console.log(clone3 instanceof mmClass); //true
+class shape{
+    constructor() {
+        if (new.target === shape) {
+            throw new Error('这是一个抽象基类 不能直接实例化');
+        }
+    }
+}
+class Rectangle1 extends shape{
+    constructor(length,width){
+        super();
+        this.length = length;
+        this.width = width;
+    }
+}
+// var x = new shape(); error
+var y = new Rectangle1(1,2);
 
 
 
