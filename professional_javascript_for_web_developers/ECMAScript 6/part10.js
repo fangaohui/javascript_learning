@@ -105,8 +105,29 @@ console.log(Object.getOwnPropertyDescriptor(inst1,'BYTES_PER_ELEMENT')); //undef
   configurable: false }
  */
 console.log(Object.getOwnPropertyDescriptor(Int16Array,'BYTES_PER_ELEMENT'));
+console.log('定型数组与普通数组的相似之处');
+let ints = new Int16Array([25,20]),
+    mapped = ints.map(v => v * 2);
+console.log(mapped); //Int16Array [ 50, 40 ]
+console.log(mapped.length); //2
+console.log('定型数组与普通数组的差别');
+console.log(ints instanceof Array); //false
+console.log(Array.isArray(ints)); //false
+ints[2] = 100;
+console.log(ints[1]); //20
+console.log(ints[2]); //undefined
+let testInts = ints.map(v => 'hi');
+console.log(testInts); //Int16Array [ 0, 0 ]
+console.log(testInts instanceof Int16Array); //true
+ints.set([9,99]);
+console.log(ints); //Int16Array [ 9, 99 ]
+// ints.set([8],2); //error 会改变定型数组长度 error
+let newInts = ints.subarray(1);
+console.log(newInts); //Int16Array [ 99 ]
+console.log('考虑ArrayBuffer和定型数组的关系?');
 
 
+  
 
 
 
