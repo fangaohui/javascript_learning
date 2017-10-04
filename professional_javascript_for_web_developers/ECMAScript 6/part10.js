@@ -50,6 +50,67 @@ console.log(numbers.fill(1,-3,-2)); //[ 191, 192, 1, 1, 195 ] //负数则和数�
 console.log('copyWithin方法');
 console.log(numbers.copyWithin(2,0)); //[ 191, 192, 191, 192, 1 ]
 console.log(numbers.copyWithin(1,0)); //[ 191, 191, 192, 191, 192 ]
+var testCopyWithinAry = [1,2,3,4,5,6,7];
+console.log(testCopyWithinAry.copyWithin(1,0)); //[ 1, 1, 2, 3, 4, 5, 6 ]
+numbers = [ 191, 192, 191, 192, 1 ];
+console.log(numbers.copyWithin(1,0)); //[ 191, 191, 192, 191, 192 ]
+console.log(testCopyWithinAry.copyWithin(3,0,2)); //[ 1, 1, 2, 1, 1, 5, 6 ]
+let numbers1 = [1,2,3,4,5];
+//注意带第三个参数时的区别
+// numbers1.copyWithin(2,0); //[ 1, 2, 1, 2, 3 ]
+numbers1.copyWithin(2,0,1); //[ 1, 2, 1, 4, 5 ]
+console.log('定型数组');
+console.log('数组缓冲区');
+let buffer = new ArrayBuffer(10);
+console.log(buffer.byteLength); //10
+let buffer1 = buffer.slice(4,6);
+console.log(buffer1.byteLength); //2
+console.log('视图操作数组缓冲区');
+let buffer12 = new ArrayBuffer(2),
+    view = new DataView(buffer12);
+view.setInt8(0,5);
+view.setInt8(1,-1);
+/*
+DataView {
+  byteLength: 2,
+  byteOffset: 0,
+  buffer: ArrayBuffer { byteLength: 2 } }
+ */
+console.log(view);
+console.log(buffer12); //ArrayBuffer { byteLength: 2 }
+console.log(view.getInt16(0)); //-1535
+console.log(view.getInt8(0)); //5
+console.log(view.getInt8(1)); //-1
+let inst1 = new Int16Array([23,24]);
+    inst2 = new Int32Array(inst1);
+console.log(inst1.buffer === inst2.buffer); //false
+console.log(inst1.byteLength); //4
+console.log(inst1.length); //2
+console.log(inst1[0]); //23
+console.log(inst1[1]); //24
+console.log(inst2.byteLength); //8
+console.log(inst2.length); //2
+console.log(inst2[0]); //23
+console.log(inst2[1]); //24
+console.log(Int16Array.BYTES_PER_ELEMENT); //2
+console.log(Int32Array.BYTES_PER_ELEMENT); //4
+console.log(Float64Array.BYTES_PER_ELEMENT); //8
+//考虑为什么getOwnPropertyDescriptor()为undefined但是可取到值 类似派生类的静态属性Symbol.species???
+console.log(inst1.BYTES_PER_ELEMENT); //2
+console.log(Object.getOwnPropertyDescriptor(inst1,'BYTES_PER_ELEMENT')); //undefined
+/*
+{ value: 2,
+  writable: false,
+  enumerable: false,
+  configurable: false }
+ */
+console.log(Object.getOwnPropertyDescriptor(Int16Array,'BYTES_PER_ELEMENT'));
+
+
+
+
+
+
 
 
 
