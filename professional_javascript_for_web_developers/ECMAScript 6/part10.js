@@ -124,7 +124,7 @@ console.log(ints); //Int16Array [ 9, 99 ]
 // ints.set([8],2); //error 会改变定型数组长度 error
 let newInts = ints.subarray(1);
 console.log(newInts); //Int16Array [ 99 ]
-console.log('考虑ArrayBuffer和定型数组的关系?');
+console.log('注意ArrayBuffer和定型数组的关系');
 
 
   
