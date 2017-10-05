@@ -125,9 +125,12 @@ console.log(ints); //Int16Array [ 9, 99 ]
 let newInts = ints.subarray(1);
 console.log(newInts); //Int16Array [ 99 ]
 console.log('注意ArrayBuffer和定型数组的关系');
+let buffer3 = new ArrayBuffer(10),
+    view3 = new Int8Array(buffer),
+    view4 = new Int8Array(buffer,5,2),
+    view5 = new DataView(buffer,3,2);
+let view6 = new Int8Array(view5.buffer,view5.byteOffset,view5.byteLength);
 
-
-  
 
 
 
