@@ -122,17 +122,34 @@ setTimeout(function(){
         console.log(error);
     });
 },1100);
+setTimeout(function(){
+    console.log('响应多个Promise');
+    let p5 = new Promise(function(resolve,reject){
+        resolve(42);
+    });
+    let p6 = new Promise(function(resolve,reject){
+        resolve(43);
+    });
+    let p7 = Promise.all([p5,p6]);
+    p7.then(function(value){
+        console.log(value); //[ 42, 43 ]
+    });
+    p6.then(function(value){
+        console.log(value);
+    });
 
-
-
-
-
-
-
-
-
-
-
-
-
+    let p8 = new Promise(function(resolve,reject){
+        reject(56);
+    });
+    let p9 = new Promise(function(resolve,reject){
+        resolve(57);
+    });
+    let p10 = Promise.all([p8,p9]);
+    p10.catch(function(value){
+        console.log('aaa' + value); //aaa56
+    });
+    p9.then(function(value){
+        console.log(value); //57
+    });
+},1200);
 
