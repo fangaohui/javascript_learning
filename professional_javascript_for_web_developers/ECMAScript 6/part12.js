@@ -48,4 +48,21 @@ console.log(target.aa); //undefined 不走代理
 console.log('value' in proxy); //false
 let deleted = delete proxy.name; //false
 console.log(proxy.name); //a
+console.log('原型代理陷阱 等');
+let target1 = {};
+let proxy1 = new Proxy(target1,{
+    getPrototypeOf(trapTarget){
+        console.log(trapTarget === target1); //true
+        return null;
+    },
+    setPrototypeOf(trapTarget,proto){
+        return false;
+    }
+});
+console.log(Object.getPrototypeOf(proxy1)); //null
+Object.setPrototypeOf(target1,{});
+// Object.setPrototypeOf(proxy1,{}); //error
+
+
+
 
