@@ -57,12 +57,42 @@ let proxy1 = new Proxy(target1,{
     },
     setPrototypeOf(trapTarget,proto){
         return false;
+    },
+    isExtensible(trapTarget){
+        return Reflect.isExtensible(trapTarget);
+    },
+    preventExtensions(trapTarget){
+        return false;
+    },
+    defineProperty(trapTarget,key,descriptor){
+        console.log(descriptor); //{ value: 'proxy' } 内部创建的新对象 不包含描述符对象非标准属性name
+        console.log(descriptorTest === descriptor); //false
+        if (typeof key === 'symbol') {
+            return Reflect.defineProperty(trapTarget,key,descriptor);
+        }
+        return false;
+    },
+    ownKeys(trapTarget){
+        //过滤使用下划线开头的属性键 ownKeys()只对Object.keys/getOwnPropertyNames/getOwnPropertySymbols/assign()和for-in循环有效
+        //对for-of Object.keys等无效
+        return Reflect.ownKeys(trapTarget).filter(key => {
+            return typeof key !== 'string' || key[0] !== '_';
+        });
     }
 });
 console.log(Object.getPrototypeOf(proxy1)); //null
 Object.setPrototypeOf(target1,{});
 // Object.setPrototypeOf(proxy1,{}); //error
-
-
+console.log(Reflect.getPrototypeOf(proxy1)); //null Reflect/Object作用于代理都会调用代理陷阱
+console.log(Object.isExtensible(proxy1)); //true
+Object.preventExtensions(target1);
+console.log(Object.isExtensible(proxy1)); //false
+// console.log(typeof descriptorTest); //error 块级声明let不会被提升
+let descriptorTest = {
+    value : 'proxy',
+    name : 'aaaa'
+};
+// Object.defineProperty(proxy1,Symbol('asd'),descriptorTest); 为什么报错???
+console.log('覆写抽象基类构造函数');
 
 
