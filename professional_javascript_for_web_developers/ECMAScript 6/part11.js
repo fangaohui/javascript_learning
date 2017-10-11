@@ -1,40 +1,36 @@
 console.log('Promise与异步编程');
 //*****************************************************************************
 console.log('创建未完成的Promise');
-/*
-//注意执行顺序
-Promise test
-123
-promise resolved
-timeout
- */
-var testPromise = new Promise(function doPromise(resolve,reject) {
-    console.log('Promise test');
-    resolve();
+let uuio = 123;
+var testPromise = new Promise((resolve,reject) => {
+    console.log('Promise test' + uuio);
+    setTimeout(reject, 200, 'abcdef'); //忽略 因为先执行了resolve()已处理???
+    resolve(uuio);
+    console.log('会执行');
 });
-testPromise.then(function(){
-    console.log('promise resolved');
-});
-//使用setTimeout()函数可以指定将任务添加到队列前的延时
-setTimeout(function(){
-    console.log('timeout');
-},500);
-console.log('123');
+testPromise.then((value) => console.log(value));
+setTimeout(() => console.log('123456'), 1000);
+console.log('注意打印顺序');
 //*****************************************************************************
 console.log('创建已处理的Promise');
-let promise = Promise.resolve(43);
-promise.then(function(value){
-    console.log(value);
-})
-let promise1 = Promise.resolve(promise);
-console.log(promise1 === promise); //true
+Promise.resolve(43333).then(value => console.log(value));
+// console.log(Promise.reject(testPromise) === testPromise); //false ???????
+// let promise1 = Promise.resolve(testPromise);
+// console.log(promise1 === testPromise); //true
 let thenable = {
     then : function(resolve,reject){
-        resolve(42);
-        // reject(42);
+        resolve(422222);
+        reject(4211111); //忽略???
+        console.log('执行111'); //为什么打印顺序靠后???
     }
 };
+console.log(Promise.resolve(testPromise)); //Promise { 123 } 不延迟也是已处理状态 注意对thenable对象的特殊处理???
+console.log(Promise.reject(testPromise)); //Promise { <rejected> Promise { 123 } }
+console.log(Promise.reject(thenable)); //Promise { <rejected> { then: [Function: then] } }???
 let p1 = Promise.resolve(thenable);
+console.log(p1); //Promise { <pending> } 注意此时是pending状态???
+setTimeout(() => console.log(p1), 50); //Promise { 422222 } 此时就变为已处理状态???
+/*
 p1.then(function(value){
     console.log(value);
 },function(value){
@@ -153,3 +149,4 @@ setTimeout(function(){
     });
 },1200);
 
+*/
