@@ -177,15 +177,27 @@ console.log(colors); //MyArray { '1': 234, '6': 123, length: 7 }
 colors.length = 2;
 console.log(colors); //MyArray { '1': 234, length: 2 }
 console.log('将代理用作原型');
-let target23 = {};
+let target23 = {
+    a : 123
+};
 let thing = Object.create(new Proxy(target23,{
     get(trapTarget,key,receiver){
         console.log(trapTarget === receiver); //false 注意不相等 trapTarget是receiver的原型对象
-        throw new ReferenceError(`${key} doesn't exist`);
+        console.log(trapTarget === target23); //true
+        console.log(thing === receiver); //true
+        // throw new ReferenceError(`${key} doesn't exist`);
+        return Reflect.get(trapTarget,key,receiver);
+    },
+    set(trapTarget,key,value,receiver){
+        console.log('123321' + value); //123321thing
+        //***注意这里set属性的接收对象是第四个参数 如果传trapTarget 则是在原型对象target23中set属性
+        return Reflect.set(trapTarget,key,value,trapTarget);
+        // return Reflect.set(trapTarget,key,value,receiver);
     }
 }));
 thing.name = 'thing';
 console.log(thing.name); //thing
 // var unk = thing.unk; //error
+console.log('将代理用作类的原型');
 
 
