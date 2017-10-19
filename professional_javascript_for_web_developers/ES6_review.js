@@ -50,6 +50,19 @@ var bbb = class {
 console.log(bbb.__proto__); //[Function]
 var abc = new bbb();
 abc.ccc();
+let serializabelMixin = {
+    serialize(){}
+};
+let AreaMixin = {
+    getArea(){}
+};
+function mixin(...mixins){
+    var base = function(){};
+    Object.assign(base.prototype,...mixins);
+    return base;
+}
+class Square extends mixin(AreaMixin,serializabelMixin){
+}
 
 
 
