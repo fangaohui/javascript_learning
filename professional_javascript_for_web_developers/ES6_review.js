@@ -63,6 +63,16 @@ function mixin(...mixins){
 }
 class Square extends mixin(AreaMixin,serializabelMixin){
 }
+let rejected;
+process.on('rejectionHandled',promise => console.log((rejected === promise) + '123456'));
+process.on('unhandledRejection',(reason,promise) => {
+    console.log(reason.message);
+});
+rejected = Promise.reject(new Error('Explosion test'));
+//如果不使用setTimeout()函数 rejectionHandled不触发 因为rejected创建过程和拒绝处理程序的调用在同一个事件循环 此时rejectionHandled事件尚未生效
+// setTimeout(() => {
+    rejected.catch(value => console.log(value.message + '123'));
+// });
 
 
 
