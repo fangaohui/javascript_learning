@@ -11,3 +11,24 @@ let as = document.getElementsByTagName('a'); //HTMLCollection对象
 alert(as);
 alert((as.namedItem('abc') === as['abc']) + (as[0] === as.item(0))); //1+1=2
 alert(document.implementation.hasFeature('XML',1.0)); //true
+let test123 = document.documentElement instanceof HTMLElement;
+alert(test123 + document.documentElement.tagName); //trueHTML
+alert(as[0] instanceof Element); //true
+function outputAttributes(element) {
+    var pairs = new Array(),
+        attrName,
+        attrValue,
+        i,
+        len;
+    for (i = 0, len = element.attributes.length; i < len; i++) {
+        attrName = element.attributes[i].nodeName;
+        attrValue = element.attributes[i].nodeValue;
+        if (element.attributes[i].specified) {
+            pairs.push(attrName + '="' + attrValue + '"');
+        }
+    }
+    return pairs.join(' ');
+}
+alert(as[0].attributes);
+alert(outputAttributes(as[0]));
+
