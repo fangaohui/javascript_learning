@@ -16,3 +16,6 @@ testa.innerHTML = '123456';
 testa.outerHTML = '234567';
 testa.insertAdjacentHTML('beforebegin','66666'); //无效 因为当前不是一个元素节点 在上一行已设置为文本节点
 eles[1].scrollIntoView(true);
+alert(document.documentMode);
+var result = document.documentElement.compareDocumentPosition(document.body);
+alert(result); //4 16 居后和被包含 二进制10100
