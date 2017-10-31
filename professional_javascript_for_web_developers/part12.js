@@ -25,3 +25,4 @@ function getIframeDoc (iFrameId){
     var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
     return iframeDoc;
 }
+var parentWindow = document.defaultView || document.parentWindow;
