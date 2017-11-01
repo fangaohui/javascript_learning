@@ -3,7 +3,6 @@ alert(document.body.isDefaultNamespace(''));
 alert(document.body.localName);
 alert(document.body.namespaceURI); //http://www.w3.org/1999/xhtml
 alert(document.body.prefix); //null
-*/
 alert(document.doctype.publicId);
 alert(document.doctype.systemId);
 var oldNode = document.documentElement;
@@ -26,3 +25,28 @@ function getIframeDoc (iFrameId){
     return iframeDoc;
 }
 var parentWindow = document.defaultView || document.parentWindow;
+*/
+var supportsDOM2CSS = document.implementation.hasFeature('CSS','2.0');
+var testa = document.getElementById('abc');
+alert(testa.style.backgroundColor);
+testa.style.cssText = 'width:130px; height:50px';
+alert(testa.style.length);
+var mydiv = testa.style.item(0);
+alert(mydiv);
+var value1 = testa.style.getPropertyValue(mydiv);
+alert(testa.style.getPropertyCSSValue);
+// var value = testa.style.getPropertyCSSValue(mydiv);
+// alert(value.cssText + '\n' + value.cssValueType);
+alert(document.defaultView.getComputedStyle(testa,null));
+// testa.currentStyle; ie浏览器的getComputedStyle()
+var supportsDOM2StyleSheets = document.implementation.hasFeature('StyleSheets','2.0');
+alert(supportsDOM2StyleSheets); //true
+alert(document.styleSheets.length); //0
+function getStyleSheet(element){
+    return element.sheet || element.styleSheet;
+}
+alert(getStyleSheet(testa)); //undefined未支持?
+alert(testa.getBoundingClientRect());
+
+
+
