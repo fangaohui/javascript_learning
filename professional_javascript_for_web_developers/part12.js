@@ -26,6 +26,7 @@ function getIframeDoc (iFrameId){
 }
 var parentWindow = document.defaultView || document.parentWindow;
 */
+/*
 var supportsDOM2CSS = document.implementation.hasFeature('CSS','2.0');
 var testa = document.getElementById('abc');
 alert(testa.style.backgroundColor);
@@ -46,7 +47,38 @@ function getStyleSheet(element){
     return element.sheet || element.styleSheet;
 }
 alert(getStyleSheet(testa)); //undefined未支持?
-alert(testa.getBoundingClientRect());
+*/
+alert(document.documentElement.scrollTop);
+var teste = document.getElementById('abc');
+function getBoundingClientRect(elem){
+    alert(typeof arguments.callee.offset); //undefined
+    //给函数增加一个offset属性 只有typeof offset不为number时才初始化 确保只初始化一次
+    if (typeof arguments.callee.offset != 'number') {
+        var scrollTop = document.documentElement.scrollTop;
+        var temp = document.createElement('div');
+        temp.style.cssText = 'position:absolute;left:0;top:0';
+        document.body.appendChild(temp);
+        arguments.callee.offset = -temp.getBoundingClientRect().top - scrollTop;
+        document.body.removeChild(temp);
+        temp = null;
+    }
+    var rect = elem.getBoundingClientRect();
+    var offset = arguments.callee.offset;
+    return {
+        left: rect.left + offset,
+        right: rect.right + offset,
+        top: rect.top + offset,
+        bottom:rect.bottom + offset
+    };
+}
+alert(getBoundingClientRect(teste));
+
+
+
+
+
+
+
 
 
 
