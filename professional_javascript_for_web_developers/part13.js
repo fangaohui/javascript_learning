@@ -9,3 +9,15 @@ EventUtil.addHandle(testBtn,'click',(event)=>{
 //并不能取消html中设置的事件处理
 // testBtn.onclick = null;
 //AbstractView类型?????
+var isSupported = document.implementation.hasFeature('UIEvent',3.0);
+alert(isSupported + 'abc');
+var imgEle = document.getElementById('9900');
+EventUtil.addHandle(imgEle,'load',function(argument) {
+    alert('img did loaded');
+});
+isSupported = document.implementation.hasFeature('FocusEvent','3.0');
+EventUtil.addHandle(imgEle,'click',function(event){
+    event = EventUtil.getEvent(event);
+    alert(event.screenX + '\n' + event.screenY + '\n\n' + event.pageX + '\n' + event.pageY + '\n\n' + event.clientX + '\n' + event.clientY);
+    alert(event.shiftKey);
+});
