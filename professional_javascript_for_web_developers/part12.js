@@ -72,6 +72,9 @@ function getBoundingClientRect(elem){
     };
 }
 alert(getBoundingClientRect(teste));
+alert(typeof document.createTreeWalker == 'function');
+alert(typeof document.createNodeIterator == 'function');
+alert(typeof document.createRange == 'function');
 
 
 
