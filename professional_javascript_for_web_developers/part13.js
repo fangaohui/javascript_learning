@@ -21,3 +21,5 @@ EventUtil.addHandle(imgEle,'click',function(event){
     alert(event.screenX + '\n' + event.screenY + '\n\n' + event.pageX + '\n' + event.pageY + '\n\n' + event.clientX + '\n' + event.clientY);
     alert(event.shiftKey);
 });
+console.log('13.4.6 变动事件');
+isSupported = document.implementation.hasFeature('MutationEvents','2.0');
