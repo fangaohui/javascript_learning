@@ -23,3 +23,8 @@ EventUtil.addHandle(imgEle,'click',function(event){
 });
 console.log('13.4.6 变动事件');
 isSupported = document.implementation.hasFeature('MutationEvents','2.0');
+EventUtil.addHandler(window,'deviceorientation',function(){
+    var arrow = document.getElementById('arrow');
+    arrow.style.webkitTransform = 'rotate(' + Math.round(event.alpha) + 'deg)';
+});
+document.createEvent('UIEvent');
