@@ -204,3 +204,19 @@ displayInfo({
     age: 20,
 });
 console.log(typeof RegExp);
+
+var testBlo = '1234';
+function testJSBlock(){
+    var testbloobj = {
+        testjs(){
+            testBlo = '0000';
+            console.log(testBlo);
+        }
+    };
+    return testbloobj;
+}
+var testoobj123 = testJSBlock();
+testBlo = '3344';
+testoobj123.testjs();
+console.log(testBlo);
+
