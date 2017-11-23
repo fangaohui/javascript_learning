@@ -32,4 +32,18 @@ EventUtil.addHandle(textinput,'select',function(event){
     alert(target.value.substring(target.selectionStart,target.selectionEnd));
     // alert(document.selection.createRange().text); ie8及以前版本 使用document.selection创建范围
 });
+alert(testForm.checkValidity());
+var selectionTest = document.getElementsByTagName('select')[0];
+var newOption = new Option('text','option');
+selectionTest.add(newOption,undefined);
+var option1 = document.createElement('option');
+option1.appendChild(document.createTextNode('option text'));
+option1.setAttribute('value','option value');
+selectionTest.add(option1);
+var optionToMove = selectionTest.options[1];
+selectionTest.insertBefore(optionToMove,selectionTest.options[optionToMove.index-1]);
+EventUtil.addHandle(window,'load',function(){
+    alert(frames.document);
+    // frames.document.designMode = 'on';
+});
 

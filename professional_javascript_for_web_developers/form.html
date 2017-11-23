@@ -7,12 +7,15 @@
 <body>
 <form method="get" id="test_form">
     <ul>
-        <li><input type="radio" name="color" value="red">Red</li>
+        <li><input type="radio" name="color" value="red" contenteditable="">Red</li>
         <li><input type="text" name="testinput" value="123"></li>
         <li><input type="radio" name="color" value="green">Green</li>
         <li><input type="radio" name="color" value="Blue">blue</li>
+        <select>abc</select>
+        <option>bbb</option>
         <input type="reset" value="Reset Form">
-        <button type="submit" name="submit-btn">submit</button>
+        <button type="submit" name="submit-btn" novalidate>submit</button>
+        <iframe src="blank.html" name="richedit" style="height: 300px;width: 300px"></iframe>
     </ul>
 </form>
 
