@@ -43,7 +43,13 @@ selectionTest.add(option1);
 var optionToMove = selectionTest.options[1];
 selectionTest.insertBefore(optionToMove,selectionTest.options[optionToMove.index-1]);
 EventUtil.addHandle(window,'load',function(){
-    alert(frames.document);
-    // frames.document.designMode = 'on';
+    alert(frames.document.getElementsByTagName('body')[0].getAttribute('name'));
+    frames.document.designMode = 'on';
+    frames['richedit'].document.execCommand('bold',false,null);
 });
+let result = frames['richedit'].document.queryCommandEnabled('bold');
+var isBold = frames['richedit'].document.queryCommandState('bold');
+var fontSize = frames['richedit'].document.queryCommandValue('fontsize');
+
+
 
