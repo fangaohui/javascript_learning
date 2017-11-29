@@ -53,3 +53,6 @@ var fontSize = frames['richedit'].document.queryCommandValue('fontsize');
 
 
 
+
+
+
