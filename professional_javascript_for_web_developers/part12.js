@@ -72,9 +72,23 @@ function getBoundingClientRect(elem){
     };
 }
 alert(getBoundingClientRect(teste));
-alert(typeof document.createTreeWalker == 'function');
-alert(typeof document.createNodeIterator == 'function');
-alert(typeof document.createRange == 'function');
+// alert(typeof document.createTreeWalker == 'function');
+// alert(typeof document.createNodeIterator == 'function');
+// alert(typeof document.createRange == 'function');
+var testform = document.getElementById('bbb');
+var testrange = document.createRange();
+var testrange1 = document.createRange();
+testrange.selectNode(testform);
+testrange1.selectNodeContents(testform);
+testrange.deleteContents();
+var removedRange = testrange1.extractContents();
+testrange.surroundContents();
+testrange.detach();
+testrange = null;
+testrange1.detach();
+testrange1 = null;
+
+
 
 
 
