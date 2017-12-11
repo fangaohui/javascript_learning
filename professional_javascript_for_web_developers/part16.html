@@ -7,7 +7,11 @@
 <p id="testdrag" draggable='true'>test drag</p>
 <div class="mediaplayer">
     <div class="vidoe">
-        <video id="player" src="movie.mov" poster="mymovie.jpg" width="200" height="200">video play error</video>
+        <video id="player" poster="mymovie.jpg" width="200" height="200">
+            <source src="movie.mov" type="video/webm">
+            <source src="movie.ogv" type="video/ogg">
+            video play error
+        </video>
     </div>
     <div class="controls">
         <input type="button" value="Play" id="video-btn">
