@@ -44,7 +44,7 @@ testError('4567');
 testError([1,2,3]);
 console.log(44444);
 function logError(sev,msg){
-    var img = new Image(); //使用image避免跨域色问题
+    var img = new Image(); //使用image避免跨域问题
     img.src = 'log.php?sev=' + encodeURIComponent(sev) + '&msg=' + encodeURIComponent(msg);
 }
 function log(message){
