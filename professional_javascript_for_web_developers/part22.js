@@ -41,3 +41,28 @@ Object.isSealed(sub);
 //冻结的对象 在密封的基础上 属性的[[Writable]]特性都被设置为false
 Object.freeze(sub);
 Object.isFrozen(sub);
+setTimeout(function(){
+    var div = document.getElementById('myDiv'),
+    var left = parseInt(div.style.left) + 5;
+    div.style.left = left + 'px';
+    if (left < 200) {
+        setTimeout(arguments.callee,200);
+    }
+},200);
+function chunk(array,process,context){
+    setTimeout(function(){
+        var item = array.shift(); //shift函数会移除item 调用该函数时可先使用concat函数克隆数组再传入
+        process.call(context,item);
+        if (array.length > 0) {
+            setTimeout(arguments.callee,100);
+        }
+    },100);
+}
+function throttle(method,context){
+    clearTimeout(method.tId);
+    method.tId = setTimeout(function(){
+        method.call(context);
+    },100);
+}
+
+
