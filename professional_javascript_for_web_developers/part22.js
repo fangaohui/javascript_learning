@@ -64,5 +64,52 @@ function throttle(method,context){
         method.call(context);
     },100);
 }
+function EventTarget(){
+    this.handlers = {};
+}
+EventTarget.prototype = {
+    constructor : EventTarget,
+    addHandler(type,handler){
+        if (typeof this.handlers[type] == 'undefined') {
+            this.handlers[type] = [];
+        }
+        this.handlers[type].push(handler);
+    },
+    fire(event){
+        if (!event.target) {
+            event.target = this;
+        }
+        if (this.handlers[event.type] instanceof Array) {
+            var handler = this.handlers[event.type];
+            for(var i = 0, len = handlers.length; i < len; i++){
+                handlers[i](event);
+            }
+        }
+    },
+    removeHandler(type,handler){
+        if (this.handlers[type] instanceof Array) {
+            var handlers = this.handlers[type];
+            for(i = 0,len = handlers.length; i < len; i++){
+                if (handler == handlers[i]) {
+                    break;
+                }
+            }
+            handlers.splice(i,1);
+        }
+    }
+};
+function Person(name,age){
+    EventTarget.call(this);
+    this.name = name;
+    this.age = age;
+}
+// inheritPrototype(Person,EventTarget);
+// 寄生组合式继承
+var tempPrototype = Object.create(EventTarget.prototype);
+tempPrototype.constructor = Person;
+Person.prototype = tempPrototype;
+Person.prototype.say = function(message){
+    this.fire({type:'message',message:message});
+};
 
 
