@@ -24,3 +24,9 @@ var CookieUtil = {
         //...
     }
 };
+var iterations = Math.floor(values.length / 8);
+var leftover = values.length % 8;
+var i = 0;
+if (leftover > 0) {
+    
+}
