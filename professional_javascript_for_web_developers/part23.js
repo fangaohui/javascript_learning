@@ -28,5 +28,17 @@ var iterations = Math.floor(values.length / 8);
 var leftover = values.length % 8;
 var i = 0;
 if (leftover > 0) {
-    
+    do{
+        process(values[i++]);
+    } while(--leftover > 0);
 }
+do{
+    process(values[i++]);
+    process(values[i++]);
+    process(values[i++]);
+    process(values[i++]);
+    process(values[i++]);
+    process(values[i++]);
+    process(values[i++]);
+    process(values[i++]);
+} while(--iterations > 0);
