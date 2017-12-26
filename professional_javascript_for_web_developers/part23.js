@@ -42,3 +42,38 @@ do{
     process(values[i++]);
     process(values[i++]);
 } while(--iterations > 0);
+(function(){
+    function draw(timestamp){
+        var drawStart = (timestamp || Date.now());
+            diff = drawStart - startTime;
+            startTime = drawStart;
+            requestAnimationFrame(draw);
+    }
+    var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame,
+        startTime = window.mozRequestAnimationFrame || Date.now();
+    requestAnimationFrame(draw);
+})();
+function handleVisibilityChange(){
+    if (document.hidden || document.msHidden || document.webkitHidden) {
+        //...
+    } else {
+        //...
+    }
+}
+EventUtil.addHandler(document,'msvisibilitychange',handleVisibilityChange);
+EventUtil.addHandler(document,'webkitvisibilitychange',handleVisibilityChange);
+navigator.geolocation.getCurrentPosition(function(position){
+    var lat = position.coords.latitude,
+        long = position.coords.longitude;
+    //...
+},function(error){
+
+},{
+    enableHighAccuracy : true,
+    timeout : 500,
+    maximumAge : Infinity
+});
+
+
+
+
