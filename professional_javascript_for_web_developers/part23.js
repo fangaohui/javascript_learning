@@ -73,7 +73,9 @@ navigator.geolocation.getCurrentPosition(function(position){
     timeout : 500,
     maximumAge : Infinity
 });
-
+var redirectCount = performance.navigation.redirectCount,
+    navType = performance.navigation.type,
+    startTiming = performance.timing.navigationStart;
 
 
 
