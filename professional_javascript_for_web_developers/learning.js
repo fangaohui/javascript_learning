@@ -57,7 +57,7 @@ function doSomething() {
     alert(isNaN('10')); //false 可以转换为数值
     alert(isNaN('blue')); //true 因为不能转换为数值
     alert(isNaN(true)); //false 可以转换为数值
-    //测试isNaN()函数之后testValue的实际类型 会不会已经被转换为了number？
+    //测试isNaN()函数之后testValue的实际类型 会不会已经被转换为了number？不会。
     var testValue = '10';
     alert(isNaN(testValue));
 
