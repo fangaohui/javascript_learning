@@ -256,10 +256,13 @@ alert(person); //Greg,abc
 alert(person.toString()); //Greg,abc
 alert(person.toLocaleString()); //Nikolaos,test
 alert(person.join('-')); //Greg-abc
+alert(person.join('+')); //Greg+abc
+var removeObj = person.shift();
+var addObj = person.unshift();
 //数组排序
 var values = [0, 1, 5, 10, 15];
 values.reverse(); //15 10 5 1 0
-values.sort(); //0 1 10 15 5 sort无参数则默认元素toString然后按string比较
+values.sort(); //0 1 10 15 5 sort无参数则默认元素toString然后按string比较 即使数组中每一项是数值而不是字符串 也会比较字符串
 function compare(value1, value2) {
     if (value1 < value2) {
         return 1;
