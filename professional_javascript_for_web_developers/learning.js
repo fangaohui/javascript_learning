@@ -21,7 +21,7 @@ function doSomething() {
     alert(null == undefined); //true 但由于类型不一致 会出于比较的目的转换操作数
     alert(null === undefined); //false 全等不转换操作数类型
 
-    //ECMAScript中所有类型的值都有与bool值等价的值 用函数Boolean()将一个其他类型的值转换为其对于的bool值
+    //ECMAScript中所有类型的值都有与bool值等价的值 用函数Boolean()将一个其他类型的值转换为其对应的bool值
     var messageThird = "hello";
     var messageThirdAsBoolean = Boolean(messageThird);
     if (messageThird) {
@@ -65,7 +65,7 @@ function doSomething() {
     var num1 = Number('hello'); //NaN
     var num2 = Number('23hello'); //NaN
     var num2 = Number(''); //0
-    var num3 = Number('0x1b'); //18进制字符串转换为十进制27
+    var num3 = Number('0x1b'); //16进制字符串转换为十进制27
     var num4 = Number('07'); //前导0忽略 而不是按八进制
 
     //parseInt() parseFloat() 函数专门用于字符串转换数值 其他类型转换会如何？

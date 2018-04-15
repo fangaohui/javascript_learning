@@ -208,8 +208,10 @@ console.log(typeof RegExp);
 var testBlo = '1234';
 function testJSBlock(){
     var testbloobj = {
+        'testBlo' : 111,
         testjs(){
             testBlo = '0000';
+            console.log(this.testBlo);
             console.log(testBlo);
         }
     };
@@ -219,4 +221,16 @@ var testoobj123 = testJSBlock();
 testBlo = '3344';
 testoobj123.testjs();
 console.log(testBlo);
+
+function test00(){
+    this.testBlo = 1023;
+    console.log(this.testBlo);
+}
+var aaabbb = {
+    testBlo : 7777888
+};
+var test111 = test00.bind(aaabbb);
+var vvv = new test111();
+console.log(aaabbb.testBlo);
+
 
