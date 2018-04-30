@@ -223,12 +223,20 @@ testoobj123.testjs();
 console.log(testBlo);
 
 function test00(){
-    this.testBlo = 1023;
+    // this.testBlo = 1023;
     console.log(this.testBlo);
 }
 var aaabbb = {
-    testBlo : 7777888
+    testBlo : 77778884
 };
+var aaabbb1111 = {
+    testBlo : 77778880000
+};
+aaabbb.testfu = test00;
+aaabbb.testfu();
+aaabbb.testfu.call(aaabbb1111);
+aaabbb1111.testuu = test00.bind(aaabbb);
+aaabbb1111.testuu();
 var test111 = test00.bind(aaabbb);
 var vvv = new test111();
 console.log(aaabbb.testBlo);
