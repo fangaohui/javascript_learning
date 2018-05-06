@@ -240,5 +240,39 @@ aaabbb1111.testuu();
 var test111 = test00.bind(aaabbb);
 var vvv = new test111();
 console.log(aaabbb.testBlo);
+console.log('test');
+//验证闭包嵌套时的执行环境作用域链
+var test99 = 100;
+var test88 = 66;
+var testobj99 = {
+    test99 : 199,
+    testfunction99 : function(){
+
+    }
+}
+var abcFunction = function(){
+    var test88 = 55;
+    console.log(this.test99);
+    return function(){
+        console.log(this.test99 + 'abcd');
+        var test44 = 44;
+        return function(){
+            console.log(test88);    
+        };
+    }
+};
+var cccf = abcFunction();
+var aaf = cccf();
+aaf();
+
+//验证闭包的this是否可以指向非全局对象
+testobj99.testff = abcFunction();
+testobj99.testff(); //199abcd 闭包中的this可以指向非全局对象
+
+
+
+
+
+
 
 
