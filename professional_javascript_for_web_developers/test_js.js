@@ -269,6 +269,31 @@ aaf();
 testobj99.testff = abcFunction();
 testobj99.testff(); //199abcd 闭包中的this可以指向非全局对象
 
+console.log(111122223333);
+function MyTest(name01){
+    var test3344 = name01;
+    this.getName = function(){
+        return test3344;
+    };
+    this.setName = function(value){
+        test3344 = value;
+    }
+}
+var aMy = new MyTest('123411');
+aMy.setName('0099');
+var bMy = new MyTest('445566');
+console.log(bMy.getName());
+console.log(aMy.getName());
+//注意之间的区别*******************
+function creatTest(){
+    var result = new Array();
+    for (var i = 0; i < 10; i++) {
+        result[i] = function(){
+            return i;
+        }
+    }
+    return result;
+}
 
 
 
