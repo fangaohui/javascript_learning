@@ -74,8 +74,27 @@ rejected = Promise.reject(new Error('Explosion test'));
     rejected.catch(value => console.log(value.message + '123'));
 // });
 
-
-
+console.log(123312);
+function abc123(a,a){
+    console.log(a);
+}
+abc123(1); //undefined
+abc123(1,2);
+let yyuu = new abc123;
+function bbbvv(){
+    this.a = 1;
+    this.uuttr = function()
+    {
+        console.log(this.a);
+    }
+}
+var bbcc = new bbbvv;
+console.log(yyuu instanceof abc123); //true
+console.log(yyuu instanceof bbbvv); //false
+Object.setPrototypeOf(yyuu,bbcc);
+console.log(yyuu instanceof abc123); //false !!!
+console.log(yyuu instanceof bbbvv); //true
+console.log(yyuu.uuttr());
 
 
 
