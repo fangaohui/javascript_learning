@@ -96,5 +96,23 @@ console.log(yyuu instanceof abc123); //false !!!
 console.log(yyuu instanceof bbbvv); //true
 console.log(yyuu.uuttr());
 
+let abceq = {
+    abc : 123
+    // test1(){
+    //     console.log(1221);
+    // }
+};
+let abceq11 = {
+    abc : 123
+    // test1(){
+    //     console.log(1221);
+    // }
+};
+abceq11 = abceq;
+// abceq.test1();
+console.log(abceq.valueOf());
+if (abceq === abceq11) {
+    console.log('same');
+}
 
 
