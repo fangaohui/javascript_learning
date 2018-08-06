@@ -325,3 +325,7 @@ function factorial(num) {
         return num * arguments.callee(num - 1);
     }
 }
+
+var fghk = '1';
+
+
